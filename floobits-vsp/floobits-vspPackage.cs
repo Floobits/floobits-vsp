@@ -85,7 +85,7 @@ namespace Floobits.floobits_vsp
             {
                 // Create the command for the menu item.
                 CommandID menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidJoinWorkspace);
-                MenuCommand menuItem = new MenuCommand(MenuItemCallback, menuCommandID );
+                MenuCommand menuItem = new MenuCommand(MenuItemJoinWorkspaceCallback, menuCommandID );
                 mcs.AddCommand( menuItem );
                 // Create the command for the tool window
                 CommandID toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooTool);
@@ -100,7 +100,7 @@ namespace Floobits.floobits_vsp
         /// See the Initialize method to see how the menu item is associated to this function using
         /// the OleMenuCommandService service and the MenuCommand class.
         /// </summary>
-        private void MenuItemCallback(object sender, EventArgs e)
+        private void MenuItemJoinWorkspaceCallback(object sender, EventArgs e)
         {
             // Show a Message Box to prove we were here
             IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
