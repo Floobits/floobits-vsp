@@ -111,6 +111,7 @@ namespace Floobits.floobits_vsp
             dotFloorcFile rcfile = new dotFloorcFile();
             string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.Contents.auth);
 
+            API.createWorkspace("floobits.com", "rjemanuele", "horse", null, false);
 
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
                        0,

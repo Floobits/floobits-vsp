@@ -14,10 +14,17 @@ namespace Floobits.Common
 
         public static bool createWorkspace(string host, string owner, string workspace, IContext context, bool notPublic) {
             string path = "/api/workspace";
-            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(string.Format("http://{0}{1}", host, path));
+            HttpWebRequest req = (HttpWebRequest)WebRequest.Create(string.Format("https://{0}{1}", host, path));
+
+            dotFloorcFile floorc = new dotFloorcFile();
+            string username = floorc.Contents.auth[host].username;
+            string secret = floorc.Contents.auth[host].secret;
+            req.Credentials = new NetworkCredential(username, secret);
+            req.PreAuthenticate = true;
 
             req.ContentType = "application/json; charset=utf-8";
             req.Method = "POST";
+            req.UserAgent = "Floo VSP";
             using (var writer = new StreamWriter(req.GetRequestStream()))
             {
                 writer.Write(JsonConvert.SerializeObject(new HTTPWorkspaceRequest(owner, workspace, notPublic)));
