@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
 using System.IO;
 using Floobits.Common.Interfaces;
-
+using Floobits.Utilities;
 
 namespace Floobits.Common
 {
@@ -34,29 +35,31 @@ namespace Floobits.Common
                 case HttpStatusCode.PaymentRequired:
                     string details;
                     try {
-                        string res = resp.GetResponseStream(). method.getResponseBodyAsString();
-                        JObject obj = (JsonObject)new JsonParser().parse(res);
-                        details = obj.get("detail").getAsString();
+                        var reader = new StreamReader(resp.GetResponseStream());
+                        dynamic obj = JObject.Parse(reader.ReadToEnd());
+                        details = obj["detail"].asString();
                     } catch (IOException e) {
-                        Flog.warn(e);
+                        Flog.warn(e.ToString());
                         return false;
                     }
                     context.errorMessage(details);
                     return false;
                 case HttpStatusCode.Conflict:
                     context.statusMessage("The workspace already exists so I am joining it.");
+                    return false; // join here instead
                 case HttpStatusCode.Created:
                     context.statusMessage("Workspace created.");
                     return true;
                 case HttpStatusCode.Unauthorized:
                     Flog.log("Auth failed");
                     context.errorMessage("There is an invalid username or secret in your ~/.floorc and you were not able to authenticate.");
-                    return context.iFactory.openFile(new File(Settings.floorcJsonPath));
+                    return false;
+                    //return context.iFactory.openFile(new File(Settings.floorcJsonPath));
                 default:
                     try {
-                        Flog.warn(String.format("Unknown error creating workspace:\n%s", method.getResponseBodyAsString()));
+                        Flog.warn(string.Format("Unknown error creating workspace:\n{0}", resp.ToString()));
                     } catch (IOException e) {
-                        Flog.warn(e);
+                        Flog.warn(e.ToString());
                     }
                     return false;
             }

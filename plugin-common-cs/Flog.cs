@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Floobits.Utililities
+namespace Floobits.Utilities
 {
     public class Flog
     {
