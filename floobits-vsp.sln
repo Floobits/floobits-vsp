@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "floobits-vsp", "floobits-vsp\floobits-vsp.csproj", "{6F03C378-C263-44AD-83EF-7BFA2D5847D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C4CF5BEB-9646-4C02-A0DD-0BC951892B02} = {C4CF5BEB-9646-4C02-A0DD-0BC951892B02}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "plugin-common-cs", "plugin-common-cs\plugin-common-cs.csproj", "{C4CF5BEB-9646-4C02-A0DD-0BC951892B02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{6F03C378-C263-44AD-83EF-7BFA2D5847D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F03C378-C263-44AD-83EF-7BFA2D5847D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F03C378-C263-44AD-83EF-7BFA2D5847D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4CF5BEB-9646-4C02-A0DD-0BC951892B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CF5BEB-9646-4C02-A0DD-0BC951892B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CF5BEB-9646-4C02-A0DD-0BC951892B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CF5BEB-9646-4C02-A0DD-0BC951892B02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

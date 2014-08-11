@@ -5,7 +5,7 @@ using System.IO;
 
 // Classes for reading .floo* files
 
-namespace Floobits
+namespace Floobits.Common
 {
     public class dotFlooFile
     {

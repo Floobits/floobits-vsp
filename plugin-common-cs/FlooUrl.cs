@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Floobits
+namespace Floobits.Common
 {
     public class FlooUrl
     {
