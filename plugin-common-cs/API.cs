@@ -2,9 +2,12 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Net;
+using System.Net.Security;
 using System.IO;
 using Floobits.Common.Interfaces;
 using Floobits.Utilities;
+
+
 
 namespace Floobits.Common
 {
@@ -12,8 +15,12 @@ namespace Floobits.Common
         public static  int maxErrorReports = 3;
         private static int numSent = 0;
 
-        public static bool createWorkspace(string host, string owner, string workspace, IContext context, bool notPublic) {
+        public static bool createWorkspace(string host, string owner, string workspace, IContext context, bool notPublic)
+        {
             string path = "/api/workspace";
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(string.Format("https://{0}{1}", host, path));
 
             dotFloorcFile floorc = new dotFloorcFile();
@@ -25,6 +32,8 @@ namespace Floobits.Common
             req.ContentType = "application/json; charset=utf-8";
             req.Method = "POST";
             req.UserAgent = "Floo VSP";
+            req.KeepAlive = false;
+
             using (var writer = new StreamWriter(req.GetRequestStream()))
             {
                 writer.Write(JsonConvert.SerializeObject(new HTTPWorkspaceRequest(owner, workspace, notPublic)));
