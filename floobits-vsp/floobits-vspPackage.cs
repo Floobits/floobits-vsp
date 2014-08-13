@@ -9,6 +9,10 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Floobits.Common;
+using Floobits.Context;
+using EnvDTE;
+using EnvDTE80;
+
 
 namespace Floobits.floobits_vsp
 {
@@ -35,6 +39,8 @@ namespace Floobits.floobits_vsp
     [Guid(GuidList.guidfloobits_vspPkgString)]
     public sealed class floobits_vspPackage : Package
     {
+
+        VSPContext context = new VSPContext();
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -80,6 +86,8 @@ namespace Floobits.floobits_vsp
             Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
+            context.Initialize((DTE2)GetService(typeof(DTE)));
+
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
@@ -111,7 +119,7 @@ namespace Floobits.floobits_vsp
             dotFloorcFile rcfile = new dotFloorcFile();
             string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.Contents.auth);
 
-            API.createWorkspace("staging.floobits.com", "rje_test", "horse", null, false);
+            API.createWorkspace("staging.floobits.com", "rje_test", "horse", context, false);
 
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
                        0,

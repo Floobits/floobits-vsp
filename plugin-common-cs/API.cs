@@ -41,7 +41,15 @@ namespace Floobits.Common
                 writer.Close();
             }
 
-            HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
+            HttpWebResponse resp;
+            try
+            {
+                resp = (HttpWebResponse)req.GetResponse();
+            }
+            catch (WebException we)
+            {
+                resp = (HttpWebResponse)we.Response;
+            }
 
             switch (resp.StatusCode) {
                 case HttpStatusCode.BadRequest:
