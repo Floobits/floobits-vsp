@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.ComponentModel.Design;
+using System.Net;
 using Microsoft.Win32;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -86,8 +87,13 @@ namespace Floobits.floobits_vsp
             Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
+            // Initialize the Floobits Context
             context.Initialize((DTE2)GetService(typeof(DTE)));
 
+            // HTTP/SSL Setup
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            
             // Add our command handlers for menu (commands must exist in the .vsct file)
             OleMenuCommandService mcs = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
             if ( null != mcs )
@@ -116,8 +122,8 @@ namespace Floobits.floobits_vsp
             Guid clsid = Guid.Empty;
             int result;
 
-            dotFloorcFile rcfile = new dotFloorcFile();
-            string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.Contents.auth);
+            FloorcJson rcfile = Settings.get();
+            string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.auth);
 
             API.createWorkspace("staging.floobits.com", "rje_test", "horse", context, false);
 

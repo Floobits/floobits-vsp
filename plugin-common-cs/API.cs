@@ -18,15 +18,20 @@ namespace Floobits.Common
         public static bool createWorkspace(string host, string owner, string workspace, IContext context, bool notPublic)
         {
             string path = "/api/workspace";
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(string.Format("https://{0}{1}", host, path));
 
-            dotFloorcFile floorc = new dotFloorcFile();
-            string username = floorc.Contents.auth[host].username;
-            string secret = floorc.Contents.auth[host].secret;
-            req.Credentials = new NetworkCredential(username, secret);
+            FloorcJson floorc = Settings.get();
+            try
+            {
+                string username = floorc.auth[host]["username"];
+                string secret = floorc.auth[host]["secret"]; ;
+                req.Credentials = new NetworkCredential(username, secret);
+            }
+            finally
+            {
+
+            }
             req.PreAuthenticate = true;
 
             req.ContentType = "application/json; charset=utf-8";
@@ -77,8 +82,8 @@ namespace Floobits.Common
                 case HttpStatusCode.Unauthorized:
                     Flog.log("Auth failed");
                     context.errorMessage("There is an invalid username or secret in your ~/.floorc and you were not able to authenticate.");
+                    // We could open the file in the editor
                     return false;
-                    //return context.iFactory.openFile(new File(Settings.floorcJsonPath));
                 default:
                     try {
                         Flog.warn(string.Format("Unknown error creating workspace:\n{0}", resp.ToString()));

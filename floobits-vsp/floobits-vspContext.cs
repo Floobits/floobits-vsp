@@ -26,28 +26,28 @@ namespace Floobits.Context
         public void outputWindowMessage(string message)
         {
             // Add a line of text to the new pane.
-            owP.OutputString(message);
+            owP.OutputString(message + "\r\n");
         }
 
         public void flashMessage(string message)
         {
             // Add a line of text to the new pane.
-            owP.OutputString("FLASH: " + message);
+            owP.OutputString("FLASH : " + message + "\r\n");
         }
         public void warnMessage(string message)
         {
             // Add a line of text to the new pane.
-            owP.OutputString("WARN: " + message);
+            owP.OutputString("WARN  : " + message + "\r\n");
         }
         public void statusMessage(string message)
         {
             // Add a line of text to the new pane.
-            owP.OutputString("STATUS: " + message);
+            owP.OutputString("STATUS: " + message + "\r\n");
         }
         public void errorMessage(string message)
         {
             // Add a line of text to the new pane.
-            owP.OutputString("ERROR: " + message);
+            owP.OutputString("ERROR : " + message + "\r\n");
         }
     }
 }

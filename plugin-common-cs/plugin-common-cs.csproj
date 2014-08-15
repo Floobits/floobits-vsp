@@ -50,12 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.cs" />
-    <Compile Include="dotFloo.cs" />
+    <Compile Include="DotFloo.cs" />
     <Compile Include="Flog.cs" />
+    <Compile Include="FloorcJson.cs" />
     <Compile Include="FlooUrl.cs" />
     <Compile Include="HTTPWorkspaceRequest.cs" />
     <Compile Include="interfaces\IContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
