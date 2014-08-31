@@ -12,5 +12,7 @@ namespace Floobits.Common.Interfaces
         void warnMessage(string message);
         void statusMessage(string message);
         void errorMessage(string message);
+
+        void shutdown();
     }
 }
