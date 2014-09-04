@@ -10,7 +10,7 @@ using Floobits.Utilities;
 
 namespace Floobits.Common
 {
-    public class DotFloo 
+    public class DotFloo
     {
         [Serializable()]
         private class DotFlooJson
@@ -27,38 +27,51 @@ namespace Floobits.Common
         {
             string floo;
 
-            try {
+            try
+            {
                 floo = File.ReadAllText(path(base_dir), Encoding.UTF8);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Flog.debug(String.Format("no floo file {0} read exception {1]", path(base_dir), e.ToString()));
                 return null;
             }
 
-            try {
+            try
+            {
                 return JsonConvert.DeserializeObject<DotFlooJson>(floo);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Flog.warn(e.ToString());
             }
             return null;
         }
 
-        public static FlooUrl read(string base_dir) {
+        public static FlooUrl read(string base_dir)
+        {
             DotFlooJson dotFlooJson = parse(base_dir);
             if (dotFlooJson == null)
                 return null;
-            try {
+            try
+            {
                 return new FlooUrl(dotFlooJson.url);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 return null;
             }
         }
 
-        public static void write(string base_dir, string url) {
+        public static void write(string base_dir, string url)
+        {
             string filename = path(base_dir);
             DotFlooJson dotFlooJson = parse(base_dir);
-            if (dotFlooJson == null) {
+            if (dotFlooJson == null)
+            {
                 Flog.warn("DotFloo isn't json.");
-                if (File.Exists(filename)) {
+                if (File.Exists(filename))
+                {
                     return;
                 }
                 dotFlooJson = new DotFlooJson();
@@ -66,9 +79,12 @@ namespace Floobits.Common
 
             string json = JsonConvert.SerializeObject(dotFlooJson, Formatting.Indented);
 
-            try {
+            try
+            {
                 File.WriteAllText(path(base_dir), json, Encoding.UTF8);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Flog.warn(e.ToString());
             }
         }

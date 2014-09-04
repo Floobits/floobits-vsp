@@ -16,17 +16,23 @@ namespace Floobits.Common
         public string share_dir;
         public int MAX_ERROR_REPORTS;
 
-        public static FloorcJson getFloorcJsonFromSettings () {
+        public static FloorcJson getFloorcJsonFromSettings()
+        {
             FloorcJson floorcJson = null;
-            try {
+            try
+            {
                 floorcJson = Settings.get();
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Flog.warn(e.ToString());
             }
-            if (floorcJson == null) {
+            if (floorcJson == null)
+            {
                 floorcJson = new FloorcJson();
             }
-            if (floorcJson.auth == null) {
+            if (floorcJson.auth == null)
+            {
                 floorcJson.auth = new Dictionary<string, Dictionary<string, string>>();
             }
             return floorcJson;

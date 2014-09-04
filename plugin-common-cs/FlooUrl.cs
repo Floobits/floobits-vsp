@@ -22,7 +22,8 @@ namespace Floobits.Common
             this.host = u.Host;
             this.owner = parts[1];
             this.workspace = parts[2];
-            if (this.owner.Equals("r")) {
+            if (this.owner.Equals("r"))
+            {
                 this.owner = parts[2];
                 this.workspace = parts[3];
             }
@@ -31,10 +32,14 @@ namespace Floobits.Common
 
             this.secure = !this.proto.Equals("http");
 
-            if (this.port < 0) {
-                if (this.secure) {
+            if (this.port < 0)
+            {
+                if (this.secure)
+                {
                     this.port = 3448;
-                } else {
+                }
+                else
+                {
                     this.port = 3148;
                 }
             }
@@ -50,21 +55,27 @@ namespace Floobits.Common
             this.proto = secure ? "https" : "http";
         }
 
-        public string toString() {
+        public string toString()
+        {
             string port = "";
 
-            if (this.secure) {
+            if (this.secure)
+            {
                 proto = "https";
-                if (this.port != 3448) {
+                if (this.port != 3448)
+                {
                     port = string.Format(":{0}", this.port);
                 }
-            } else {
+            }
+            else
+            {
                 proto = "http";
-                if (this.port != 3148) {
+                if (this.port != 3148)
+                {
                     port = string.Format(":{0}", this.port);
                 }
             }
             return string.Format("{0}://{1}{2}/{3}/{4}", proto, this.host, port, this.owner, this.workspace);
         }
-    }   
+    }
 };

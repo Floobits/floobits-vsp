@@ -8,11 +8,11 @@ using Floobits.Common.Interfaces;
 using Floobits.Utilities;
 
 
-
 namespace Floobits.Common
 {
-    public class API {
-        public static  int maxErrorReports = 3;
+    public class API
+    {
+        public static int maxErrorReports = 3;
         private static int numSent = 0;
 
         public static bool createWorkspace(string host, string owner, string workspace, IContext context, bool notPublic)
@@ -56,18 +56,22 @@ namespace Floobits.Common
                 resp = (HttpWebResponse)we.Response;
             }
 
-            switch (resp.StatusCode) {
+            switch (resp.StatusCode)
+            {
                 case HttpStatusCode.BadRequest:
                     // Todo: pick a new name or something
                     context.errorMessage("Invalid workspace name (a-zA-Z0-9).");
                     return false;
                 case HttpStatusCode.PaymentRequired:
                     string details;
-                    try {
+                    try
+                    {
                         var reader = new StreamReader(resp.GetResponseStream());
                         dynamic obj = JObject.Parse(reader.ReadToEnd());
                         details = obj["detail"].asString();
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e)
+                    {
                         Flog.warn(e.ToString());
                         return false;
                     }
@@ -85,9 +89,12 @@ namespace Floobits.Common
                     // We could open the file in the editor
                     return false;
                 default:
-                    try {
+                    try
+                    {
                         Flog.warn(string.Format("Unknown error creating workspace:\n{0}", resp.ToString()));
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e)
+                    {
                         Flog.warn(e.ToString());
                     }
                     return false;
