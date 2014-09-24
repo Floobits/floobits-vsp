@@ -14,8 +14,8 @@ namespace Floobits.Common
         public bool stalking = false;
         public HashSet<string> perms = new HashSet<string>();
         private Dictionary<int, FlooUser> users = new Dictionary<int, FlooUser>();
-        Dictionary<int, Buf> bufs = new Dictionary<int, Buf>();
-        Dictionary<string, int> paths_to_ids = new Dictionary<string, int>();
+        public Dictionary<int, Buf> bufs = new Dictionary<int, Buf>();
+        public Dictionary<string, int> paths_to_ids = new Dictionary<string, int>();
         private int connectionId;
 
         public bool readOnly = false;
@@ -71,7 +71,7 @@ namespace Floobits.Common
             {
                 return null;
             }
-            int id = paths_to_ids[relPath];
+            int id = paths_to_ids[FilenameUtils.separatorsToUnix(relPath)];
             if (id == null)
             {
                 return null;
@@ -95,7 +95,9 @@ namespace Floobits.Common
          */
         public FlooUser getUser(int userId)
         {
-            return users[userId];
+            FlooUser u = null;
+            users.TryGetValue(userId, out u);
+            return u;
         }
 
         public void addUser(FlooUser flooser)
