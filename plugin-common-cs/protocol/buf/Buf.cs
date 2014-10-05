@@ -1,16 +1,17 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using Floobits.Common;
 using Floobits.Common.Interfaces;
 using Floobits.Common.Protocol;
 using Floobits.Utilities;
 
-namespace Floobits.Common.Protocol
+namespace Floobits.Common.Protocol.Buf
 {
     public interface Buf
     {
         public string path;
-        public int id;
+        public int? id;  // can be null
         public volatile string md5;
         public Encoding encoding;
 
@@ -31,10 +32,10 @@ namespace Floobits.Common.Protocol
     }
     
     
-    public abstract class BufTempl<T>
+    public abstract class BufTempl<T> : Buf
     {
         public string path;
-        public int id;
+        public int? id; // can be null
         public volatile string md5;
         public volatile T buf;
         public Encoding encoding;
@@ -43,7 +44,7 @@ namespace Floobits.Common.Protocol
         protected IContext context;
         protected OutboundRequestHandler outbound;
 
-        public BufTempl(string path, int id, T buf, string md5, IContext context, OutboundRequestHandler outbound)
+        public BufTempl(string path, int? id, T buf, string md5, IContext context, OutboundRequestHandler outbound)
         {
             this.id = id;
             this.path = path;
@@ -80,6 +81,11 @@ namespace Floobits.Common.Protocol
         protected IFile getVirtualFile()
         {
             return context.iFactory.findFileByPath(context.absPath(this.path));
+        }
+
+        protected IFile getOrCreateFile()
+        {
+            return context.iFactory.getOrCreateFile(context.absPath(this.path));
         }
 
         protected IDoc getVirtualDoc()
@@ -133,14 +139,15 @@ namespace Floobits.Common.Protocol
             try
             {
                 byte[] originalBytes = virtualFile.getBytes();
-                string encodedContents = new string(originalBytes, UTF8);
-                byte[] decodedContents = encodedContents.getBytes();
-                String filePath = context.toProjectRelPath(virtualFile.getPath());
-                if (Arrays.equals(decodedContents, originalBytes))
+                string encodedContents = Encoding.UTF8.AsSysEncoding().GetString(originalBytes);
+                byte[] decodedContents = new byte[encodedContents.Length * sizeof(char)];
+                System.Buffer.BlockCopy(encodedContents.ToCharArray(), 0, decodedContents, 0, decodedContents.Length);
+                string filePath = context.toProjectRelPath(virtualFile.getPath());
+                if (Array.Equals(decodedContents, originalBytes))
                 {
                     IDoc doc = context.iFactory.getDocument(virtualFile);
-                    String contents = doc == null ? encodedContents : doc.getText();
-                    String md5 = DigestUtils.md5Hex(contents);
+                    string contents = doc == null ? encodedContents : doc.getText();
+                    string md5 = DigestUtils.md5Hex(contents);
                     return new TextBuf(filePath, null, contents, md5, context, outbound);
                 }
                 else
