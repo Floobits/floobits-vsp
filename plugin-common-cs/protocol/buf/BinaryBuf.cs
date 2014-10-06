@@ -23,14 +23,14 @@ namespace Floobits.Common.Protocol.Buf
             IFile virtualFile = getVirtualFile();
             if (virtualFile == null)
             {
-                Flog.warn("Couldn't get virtual file in readFromDisk %s", this);
+                Flog.warn("Couldn't get virtual file in readFromDisk {0}", this);
                 return;
             }
 
             byte[] bytes = virtualFile.getBytes();
             if (bytes == null)
             {
-                Flog.warn("Could not get byte array contents for file %s", this);
+                Flog.warn("Could not get byte array contents for file {0}", this);
                 return;
             }
             buf = bytes;
@@ -43,7 +43,7 @@ namespace Floobits.Common.Protocol.Buf
             {
                 if (!isPopulated())
                 {
-                    Flog.warn("Unable to write %s because it's not populated yet.", path);
+                    Flog.warn("Unable to write {0} because it's not populated yet.", path);
                     return;
                 }
                 IFile virtualFile = getOrCreateFile();
@@ -64,7 +64,7 @@ namespace Floobits.Common.Protocol.Buf
                         context.setListener(false);
                         if (!virtualFile.setBytes(buf))
                         {
-                            Flog.warn("Writing binary content to disk failed. %s", path);
+                            Flog.warn("Writing binary content to disk failed. {0}", path);
                         }
                     }
                     finally
@@ -122,13 +122,13 @@ namespace Floobits.Common.Protocol.Buf
             byte[] contents = virtualFile.getBytes();
             if (contents == null)
             {
-                Flog.warn("Couldn't read contents of binary file. %s", virtualFile);
+                Flog.warn("Couldn't read contents of binary file. {0}", virtualFile);
                 return;
             }
             string after_md5 = DigestUtils.md5Hex(contents);
             if (md5.Equals(after_md5))
             {
-                Flog.debug("Binary file change event but no change in md5 %s", virtualFile);
+                Flog.debug("Binary file change event but no change in md5 {0}", virtualFile);
                 return;
             }
             set(contents, after_md5);
