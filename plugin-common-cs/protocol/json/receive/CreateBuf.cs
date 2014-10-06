@@ -1,5 +1,6 @@
 ﻿using System;
 using Floobits.Common.Protocol;
+using BufNS = Floobits.Common.Protocol.Buf;
 using Floobits.Common;
 
 namespace Floobits.Common.Protocol.Json.Receive
@@ -13,7 +14,7 @@ namespace Floobits.Common.Protocol.Json.Receive
         public string md5;
         public string encoding;
 
-        public CreateBuf(Buf buf)
+        public CreateBuf(BufNS.Buf buf)
         {
             this.path = FilenameUtils.separatorsToUnix(buf.path);
             this.buf = buf.serialize();

@@ -1,5 +1,5 @@
 ﻿using System;
-using Floobits.Common.Protocol.Buf;
+using BufNS = Floobits.Common.Protocol.Buf;
 
 namespace Floobits.Common.Protocol
 {
@@ -20,11 +20,11 @@ namespace Floobits.Common.Protocol
 
         public FlooPatch(){}
 
-        public FlooPatch (string patch, string md5_before, Buf buf) {
+        public FlooPatch (string patch, string md5_before, BufNS.Buf buf) {
             this.path = buf.path;
             this.md5_before = md5_before;
             this.md5_after = buf.md5;
-            this.id = buf.id;
+            this.id = buf.id.Value;
             this.patch = patch;
         }
     }
