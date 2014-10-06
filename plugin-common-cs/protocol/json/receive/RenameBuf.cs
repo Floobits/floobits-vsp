@@ -1,7 +1,9 @@
-﻿using Floobits.Common.Protocol;
+﻿using System;
+using Floobits.Common.Protocol;
 
 namespace Floobits.Common.Protocol.Json.Receive
 {
+    [Serializable]
     public class RenameBuf : Base
     {
         public int id;
