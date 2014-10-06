@@ -1,5 +1,8 @@
-﻿namespace Floobits.Common.Protocol.Json.Send
+﻿using System;
+
+namespace Floobits.Common.Protocol.Json.Send
 {
+    [Serializable]
     public class FlooAuth : InitialBase
     {
         // TODO: Share this code with NewAccount

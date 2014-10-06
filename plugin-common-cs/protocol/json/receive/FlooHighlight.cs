@@ -1,9 +1,11 @@
-﻿using Floobits.Common.Protocol.Buf;
+﻿using System;
+using BufNS = Floobits.Common.Protocol.Buf;
 using Floobits.Common.Protocol;
 using System.Collections.Generic;
 
 namespace Floobits.Common.Protocol.Json.Receive
 {
+    [Serializable]
     public class FlooHighlight : Base
     {
         public string name = "highlight";
@@ -14,10 +16,10 @@ namespace Floobits.Common.Protocol.Json.Receive
         public List<List<int>> ranges;
         public int user_id;
 
-        public FlooHighlight(Buf buf, List<List<int>> ranges, bool summon, bool following)
+        public FlooHighlight(BufNS.Buf buf, List<List<int>> ranges, bool summon, bool following)
         {
             this.following = following;
-            this.id = buf.id;
+            this.id = buf.id.Value;
             if (summon != null)
             {
                 this.summon = summon;
