@@ -34,7 +34,7 @@ namespace Floobits.Common.Protocol.Buf
 
         public void write() {
             if (!isPopulated()) {
-                Flog.warn("Unable to write %s because it's not populated yet.", path);
+                Flog.warn("Unable to write {0} because it's not populated yet.", path);
                 return;
             }
 
@@ -52,7 +52,7 @@ namespace Floobits.Common.Protocol.Buf
                 }
             }
 
-            Flog.warn("Tried to write to null document: %s", path);
+            Flog.warn("Tried to write to null document: {0}", path);
 
             IFile virtualFile = getOrCreateFile();
             try {
@@ -78,7 +78,7 @@ namespace Floobits.Common.Protocol.Buf
         public void send_patch(IFile virtualFile) {
             IDoc d = context.iFactory.getDocument(virtualFile);
             if (d == null) {
-                Flog.warn("Can't get document to read from disk for sending patch %s", path);
+                Flog.warn("Can't get document to read from disk for sending patch {0}", path);
                 return;
             }
             send_patch(d.getText());
@@ -97,7 +97,7 @@ namespace Floobits.Common.Protocol.Buf
 
             set(current, after_md5);
             if (before_md5.Equals(after_md5)) {
-                Flog.log("Not patching %s because no change.", path);
+                Flog.log("Not patching {0} because no change.", path);
                 return;
             }
            outbound.patch(textPatch, before_md5, this);
@@ -111,10 +111,10 @@ namespace Floobits.Common.Protocol.Buf
         private void setGetBufTimeout() {
             int buf_id = id.Value;
             cancelTimeout();
-            timeout = context.setTimeout(2000, new RunLaterAction<Object>(delegate (Object ignored) {
+            timeout = context.setTimeout(2000, delegate {
                 Flog.info("Sending get buf after timeout.");
                 outbound.getBuf(buf_id);
-            }));
+            });
         }
 
         public void patch(FlooPatch res) {
@@ -124,13 +124,13 @@ namespace Floobits.Common.Protocol.Buf
             string oldText = buf;
             IFile virtualFile = b.getVirtualFile();
             if (virtualFile == null) {
-                Flog.warn("VirtualFile is null, no idea what do do. Aborting everything %s", this);
+                Flog.warn("VirtualFile is null, no idea what do do. Aborting everything {0}", this);
                 getBuf();
                 return;
             }
             IDoc d = context.iFactory.getDocument(virtualFile);
             if (d == null) {
-                Flog.warn("Document not found for %s", virtualFile);
+                Flog.warn("Document not found for {0}", virtualFile);
                 getBuf();
                 return;
             }
@@ -145,7 +145,7 @@ namespace Floobits.Common.Protocol.Buf
                     b.forced_patch = true;
                     oldText = viewText;
                     b.send_patch(viewText);
-                    Flog.warn("Sending force patch for %s. this is dangerous!", b.path);
+                    Flog.warn("Sending force patch for {0}. this is dangerous!", b.path);
                 }
             }
 
@@ -153,7 +153,7 @@ namespace Floobits.Common.Protocol.Buf
 
             string md5Before = DigestUtils.md5Hex(viewText);
             if (!md5Before.Equals(res.md5_before)) {
-                Flog.warn("starting md5s don't match for %s. this is dangerous!", b.path);
+                Flog.warn("starting md5s don't match for {0}. this is dangerous!", b.path);
             }
 
             List<Patch> patches =  dmp.patch_fromText(res.patch);
@@ -164,7 +164,7 @@ namespace Floobits.Common.Protocol.Buf
 
             foreach (bool clean in patchesClean) {
                 if (!clean) {
-                    Flog.log("Patch not clean for %s. Sending get_buf and setting readonly.", d);
+                    Flog.log("Patch not clean for {0}. Sending get_buf and setting readonly.", d);
                     getBuf();
                     return;
                 }
@@ -172,11 +172,11 @@ namespace Floobits.Common.Protocol.Buf
             // XXX: If patchedContents have carriage returns this will be a problem:
             string md5After = DigestUtils.md5Hex(patchedContents);
             if (!md5After.Equals(res.md5_after)) {
-                Flog.info("MD5 after mismatch (ours %s remote %s)", md5After, res.md5_after);
+                Flog.info("MD5 after mismatch (ours {0} remote {1})", md5After, res.md5_after);
             }
 
             if (!d.makeWritable()) {
-                Flog.info("Document: %s is not writable.", d);
+                Flog.info("Document: {0} is not writable.", d);
                 return;
             }
 
@@ -188,12 +188,12 @@ namespace Floobits.Common.Protocol.Buf
 
             string md5FromDoc = DigestUtils.md5Hex(text);
             if (!md5FromDoc.Equals(res.md5_after)) {
-                Flog.info("md5FromDoc mismatch (ours %s remote %s)", md5FromDoc, res.md5_after);
+                Flog.info("md5FromDoc mismatch (ours {0} remote {1})", md5FromDoc, res.md5_after);
                 b.setGetBufTimeout();
             }
 
             b.set(text, md5FromDoc);
-            Flog.log("Patched %s", res.path);
+            Flog.log("Patched {0}", res.path);
         }
     }
 }

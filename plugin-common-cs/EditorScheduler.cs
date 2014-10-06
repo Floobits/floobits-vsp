@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Diagnostics;
 using Floobits.Common.Interfaces;
-using Floobits.Common.Protocol;
+using Floobits.Common.Protocol.Buf;
 using Floobits.Utilities;
 
 namespace Floobits.Common
