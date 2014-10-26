@@ -33,9 +33,9 @@ namespace Floobits.Common
             this.outbound = outbound;
             this.shouldUpload = shouldUpload;
             fileAddedMessageThrottler = new StatusMessageThrottler(context,
-                    "%d files were added to the workspace.");
+                    "{0} files were added to the workspace.");
             fileRemovedMessageThrottler = new StatusMessageThrottler(context,
-                    "%d files were removed from the workspace.");
+                    "{0} files were removed from the workspace.");
         }
 
         private class ConflictWork
