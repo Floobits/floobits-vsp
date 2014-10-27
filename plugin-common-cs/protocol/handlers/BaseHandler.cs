@@ -25,7 +25,8 @@ namespace Floobits.Common.Protocol.Handlers
             string reason = jsonObject.GetValue("msg").ToString();
             reason = string.Format("Floobits Error: {0}", reason);
             Flog.warn(reason);
-            if (jsonObject["flash"] != null && jsonObject["flash"].Value<bool>())
+            JToken flash;
+            if (jsonObject.TryGetValue("flash", out flash) && flash.Value<bool>())
             {
                 context.errorMessage(reason);
                 context.flashMessage(reason);

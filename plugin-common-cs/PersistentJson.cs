@@ -20,8 +20,8 @@ namespace Floobits.Common
         public static void removeWorkspace(FlooUrl flooUrl)
         {
             PersistentJson persistentJson = getInstance();
-            Dictionary<string, Workspace> workspaces = persistentJson.workspaces[flooUrl.owner];
-            if (workspaces != null)
+            Dictionary<string, Workspace> workspaces;
+            if (persistentJson.workspaces.TryGetValue(flooUrl.owner, out workspaces))
             {
                 workspaces.Remove(flooUrl.workspace);
             }

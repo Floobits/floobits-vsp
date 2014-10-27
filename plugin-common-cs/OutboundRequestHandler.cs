@@ -32,8 +32,8 @@ namespace Floobits.Common
 
         public void getBuf(int buf_id)
         {
-            Buf buf = state.bufs[buf_id];
-            if (buf == null)
+            Buf buf;
+            if (!state.bufs.TryGetValue(buf_id, out buf))
             {
                 return;
             }
