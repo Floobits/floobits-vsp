@@ -71,8 +71,8 @@ namespace Floobits.Common
             {
                 return null;
             }
-            int id = paths_to_ids[FilenameUtils.separatorsToUnix(relPath)];
-            if (id == null)
+            int id;
+            if (paths_to_ids.TryGetValue(FilenameUtils.separatorsToUnix(relPath), out id))
             {
                 return null;
             }
@@ -80,8 +80,8 @@ namespace Floobits.Common
         }
         public string getUsername(int userId)
         {
-            FlooUser user = users[userId];
-            if (user == null)
+            FlooUser user;
+            if (users.TryGetValue(userId, out user))
             {
                 return "";
             }
@@ -109,17 +109,13 @@ namespace Floobits.Common
 
         public void removeUser(int userId)
         {
-            FlooUser u = users[userId];
-            if (users.Remove(userId) != null)
+            if (users.Remove(userId))
             {
                 context.setUsers(users);
+                context.statusMessage(string.Format("{0} left the workspace.", u.username));
             }
-            if (u == null)
-            {
-                return;
-            }
-            context.statusMessage(string.Format("{0} left the workspace.", u.username));
         }
+
         public int getMyConnectionId()
         {
             return connectionId;
