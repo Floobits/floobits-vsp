@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using Floobits.Common;
 using Floobits.Common.Interfaces;
 using Floobits.Common.Protocol;
@@ -39,7 +40,7 @@ namespace Floobits.Common.Protocol.Buf
         public volatile string md5;
         public volatile T buf;
         public Encoding encoding;
-        public ScheduledFuture timeout;
+        public Timer timeout;
         public bool forced_patch = false;
         protected IContext context;
         protected OutboundRequestHandler outbound;
@@ -59,7 +60,7 @@ namespace Floobits.Common.Protocol.Buf
             if (timeout != null)
             {
                 Flog.log("canceling timeout for %s", path);
-                timeout.cancel(false);
+                timeout.Dispose();
                 timeout = null;
             }
         }

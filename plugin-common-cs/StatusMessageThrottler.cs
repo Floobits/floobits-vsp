@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Floobits.Common.Interfaces;
 
@@ -13,7 +14,7 @@ namespace Floobits.Common
         private int maxMessages = 10;
         private int throttleWait = 2000;
         private List<string> messages = new List<string>();
-        private ScheduledFuture schedule = null;
+        private Timer schedule = null;
         private IContext context;
 
         /**
@@ -72,6 +73,7 @@ namespace Floobits.Common
                 context.chatStatusMessage(message);
             }
             messages.Clear();
+            schedule.Dispose();
             schedule = null;
         }
     }
