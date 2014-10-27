@@ -38,7 +38,7 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Json60r4.NET45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Json60.NET45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -50,14 +50,67 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.cs" />
+    <Compile Include="Bootstrap.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="CrashDump.cs" />
+    <Compile Include="DigestUtils.cs" />
+    <Compile Include="dmp\DiffMatchPatch.cs" />
+    <Compile Include="dmp\FlooDmp.cs" />
+    <Compile Include="dmp\FlooPatchPosition.cs" />
     <Compile Include="DotFloo.cs" />
+    <Compile Include="EditorScheduler.cs" />
+    <Compile Include="Encoding.cs" />
     <Compile Include="Flog.cs" />
+    <Compile Include="FloobitsState.cs" />
     <Compile Include="FloorcJson.cs" />
     <Compile Include="FlooUrl.cs" />
     <Compile Include="HTTPWorkspaceRequest.cs" />
+    <Compile Include="Ignore.cs" />
+    <Compile Include="InboundRequestHandler.cs" />
     <Compile Include="interfaces\IContext.cs" />
+    <Compile Include="interfaces\IDoc.cs" />
+    <Compile Include="interfaces\IFactory.cs" />
+    <Compile Include="interfaces\IFile.cs" />
+    <Compile Include="Migrations.cs" />
+    <Compile Include="OutboundRequestHandler.cs" />
+    <Compile Include="FilenameUtils.cs" />
+    <Compile Include="PersistentJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="protocol\AsyncClient.cs" />
+    <Compile Include="protocol\Base.cs" />
+    <Compile Include="protocol\buf\BinaryBuf.cs" />
+    <Compile Include="protocol\buf\Buf.cs" />
+    <Compile Include="protocol\buf\TextBuf.cs" />
+    <Compile Include="protocol\Connection.cs" />
+    <Compile Include="protocol\FlooPatch.cs" />
+    <Compile Include="protocol\FlooUser.cs" />
+    <Compile Include="protocol\handlers\BaseHandler.cs" />
+    <Compile Include="protocol\handlers\FlooHandler.cs" />
+    <Compile Include="protocol\json\receive\CreateBuf.cs" />
+    <Compile Include="protocol\json\receive\DeleteBuf.cs" />
+    <Compile Include="protocol\json\receive\EditRequest.cs" />
+    <Compile Include="protocol\json\receive\FlooHighlight.cs" />
+    <Compile Include="protocol\json\receive\GetBufResponse.cs" />
+    <Compile Include="protocol\json\receive\Perms.cs" />
+    <Compile Include="protocol\json\receive\RenameBuf.cs" />
+    <Compile Include="protocol\json\receive\RequestPerms.cs" />
+    <Compile Include="protocol\json\receive\RoomInfoBuf.cs" />
+    <Compile Include="protocol\json\receive\SaveBuf.cs" />
+    <Compile Include="protocol\json\receive\SetBuf.cs" />
+    <Compile Include="protocol\json\send\CreateBufResponse.cs" />
+    <Compile Include="protocol\json\send\FlooAuth.cs" />
+    <Compile Include="protocol\json\send\FlooKick.cs" />
+    <Compile Include="protocol\json\send\FlooMessage.cs" />
+    <Compile Include="protocol\json\send\GetBuf.cs" />
+    <Compile Include="protocol\json\send\InitialBase.cs" />
+    <Compile Include="protocol\json\send\PermsChange.cs" />
+    <Compile Include="protocol\json\send\Pong.cs" />
+    <Compile Include="protocol\json\send\RoomInfoResponse.cs" />
+    <Compile Include="RunLater.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="StatusMessageThrottler.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="Workspace.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
