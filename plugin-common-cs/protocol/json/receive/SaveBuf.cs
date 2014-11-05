@@ -1,5 +1,4 @@
 ﻿using System;
-using Floobits.Common.Protocol.Base;
 
 namespace Floobits.Common.Protocol.Json.Receive
 {

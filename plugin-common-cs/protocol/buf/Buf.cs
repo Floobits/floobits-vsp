@@ -9,37 +9,72 @@ using Floobits.Utilities;
 
 namespace Floobits.Common.Protocol.Buf
 {
-    public interface Buf
+    public abstract class Buf
     {
         public string path;
         public int? id;  // can be null
         public volatile string md5;
         public Encoding encoding;
 
-        public void cancelTimeout();
-        public static bool isBad(Buf b);
-        public bool isPopulated();
-        public bool isBufNull();
-        public override string ToString();
-        public IFile createFile();
-        public void read();
-        public void write();
-        public void set(string s, string md5);
-        public void patch(FlooPatch res);
-        public void send_patch(IFile virtualFile);
-        public string serialize();
-        public static Buf createBuf(string path, int id, Encoding enc, string md5, IContext context, OutboundRequestHandler outbound);
-        public static Buf createBuf(IFile virtualFile, IContext context, OutboundRequestHandler outbound);
+        abstract public void cancelTimeout();
+        public static bool isBad(Buf b)
+        {
+            return (b == null || !b.isPopulated());
+        }
+        abstract public bool isPopulated();
+        abstract public bool isBufNull();
+        abstract public override string ToString();
+        abstract public IFile createFile();
+        abstract public void read();
+        abstract public void write();
+        abstract public void set(string s, string md5);
+        abstract public void patch(FlooPatch res);
+        abstract public void send_patch(IFile virtualFile);
+        abstract public string serialize();
+
+        public static Buf createBuf(string path, int id, Encoding enc, string md5, IContext context, OutboundRequestHandler outbound)
+        {
+            if (enc == Encoding.BASE64)
+            {
+                return new BinaryBuf(path, id, null, md5, context, outbound);
+            }
+            return new TextBuf(path, id, null, md5, context, outbound);
+        }
+
+        public static Buf createBuf(IFile virtualFile, IContext context, OutboundRequestHandler outbound)
+        {
+            try
+            {
+                byte[] originalBytes = virtualFile.getBytes();
+                string encodedContents = Encoding.UTF8.AsSysEncoding().GetString(originalBytes);
+                byte[] decodedContents = new byte[encodedContents.Length * sizeof(char)];
+                System.Buffer.BlockCopy(encodedContents.ToCharArray(), 0, decodedContents, 0, decodedContents.Length);
+                string filePath = context.toProjectRelPath(virtualFile.getPath());
+                if (Array.Equals(decodedContents, originalBytes))
+                {
+                    IDoc doc = context.iFactory.getDocument(virtualFile);
+                    string contents = doc == null ? encodedContents : doc.getText();
+                    string md5 = DigestUtils.md5Hex(contents);
+                    return new TextBuf(filePath, null, contents, md5, context, outbound);
+                }
+                else
+                {
+                    String md5 = DigestUtils.md5Hex(originalBytes);
+                    return new BinaryBuf(filePath, null, originalBytes, md5, context, outbound);
+                }
+            }
+            catch (IOException e)
+            {
+                Flog.warn("Error getting virtual file contents in createBuf %s", virtualFile);
+            }
+            return null;
+        }
     }
     
     
     public abstract class BufTempl<T> : Buf
     {
-        public string path;
-        public int? id; // can be null
-        public volatile string md5;
-        public volatile T buf;
-        public Encoding encoding;
+        public T buf;
         public Timer timeout;
         public bool forced_patch = false;
         protected IContext context;
@@ -63,10 +98,6 @@ namespace Floobits.Common.Protocol.Buf
                 timeout.Dispose();
                 timeout = null;
             }
-        }
-        public static bool isBad(Buf b)
-        {
-            return (b == null || !b.isPopulated());
         }
 
         public bool isPopulated()
@@ -127,41 +158,5 @@ namespace Floobits.Common.Protocol.Buf
         abstract public void send_patch(IFile virtualFile);
         abstract public string serialize();
 
-        public static Buf createBuf(string path, int id, Encoding enc, string md5, IContext context, OutboundRequestHandler outbound)
-        {
-            if (enc == Encoding.BASE64)
-            {
-                return new BinaryBuf(path, id, null, md5, context, outbound);
-            }
-            return new TextBuf(path, id, null, md5, context, outbound);
-        }
-        public static Buf createBuf(IFile virtualFile, IContext context, OutboundRequestHandler outbound)
-        {
-            try
-            {
-                byte[] originalBytes = virtualFile.getBytes();
-                string encodedContents = Encoding.UTF8.AsSysEncoding().GetString(originalBytes);
-                byte[] decodedContents = new byte[encodedContents.Length * sizeof(char)];
-                System.Buffer.BlockCopy(encodedContents.ToCharArray(), 0, decodedContents, 0, decodedContents.Length);
-                string filePath = context.toProjectRelPath(virtualFile.getPath());
-                if (Array.Equals(decodedContents, originalBytes))
-                {
-                    IDoc doc = context.iFactory.getDocument(virtualFile);
-                    string contents = doc == null ? encodedContents : doc.getText();
-                    string md5 = DigestUtils.md5Hex(contents);
-                    return new TextBuf(filePath, null, contents, md5, context, outbound);
-                }
-                else
-                {
-                    String md5 = DigestUtils.md5Hex(originalBytes);
-                    return new BinaryBuf(filePath, null, originalBytes, md5, context, outbound);
-                }
-            }
-            catch (IOException e)
-            {
-                Flog.warn("Error getting virtual file contents in createBuf %s", virtualFile);
-            }
-            return null;
-        }
     }
 }

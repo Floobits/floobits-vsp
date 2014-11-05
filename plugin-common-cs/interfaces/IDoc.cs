@@ -4,17 +4,17 @@ using Floobits.Common.Dmp;
 
 namespace Floobits.Common.Interfaces
 {
-    public interface IDoc
+    public abstract class IDoc
     {
-        public void removeHighlight(int userId, string path);
-        public void applyHighlight(string path, int userID, string username, bool stalking, bool force, List<List<int>> ranges);
-        public void save();
-        public string getText();
-        public void setText(string text);
-        public void setReadOnly(bool readOnly);
-        public bool makeWritable();
-        public IFile getVirtualFile();
-        public string patch(FlooPatchPosition[] positions);
+        abstract public void removeHighlight(int userId, string path);
+        abstract public void applyHighlight(string path, int userID, string username, bool stalking, bool force, List<List<int>> ranges);
+        abstract public void save();
+        abstract public string getText();
+        abstract public void setText(string text);
+        abstract public void setReadOnly(bool readOnly);
+        abstract public bool makeWritable();
+        abstract public IFile getVirtualFile();
+        abstract public string patch(FlooPatchPosition[] positions);
     }
 }
 

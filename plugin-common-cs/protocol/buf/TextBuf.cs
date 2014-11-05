@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Floobits.Common.Constants;
 using Floobits.Common;
 using Floobits.Common.Dmp;
 using Floobits.Common.Interfaces;

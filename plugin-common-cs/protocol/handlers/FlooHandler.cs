@@ -52,7 +52,7 @@ namespace Floobits.Common.Protocol.Handlers
             context.statusMessage(string.Format("Connecting to {0}.", url.toString()));
         }
 
-        public void _on_data(String name, JsonObject obj)
+        public void _on_data(String name, JObject obj)
         {
             Flog.debug("Calling %s", name);
             try
@@ -61,7 +61,7 @@ namespace Floobits.Common.Protocol.Handlers
             }
             catch (Exception e)
             {
-                Flog.warn(string.Format("on_data error \n\n{0}", e.toString()));
+                Flog.warn(string.Format("on_data error \n\n{0}", e.ToString()));
                 API.uploadCrash(this, context, e);
             }
         }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Floobits.Common.Protocol.Buf;
 using Floobits.Common.Interfaces;
 using Floobits.Common.Protocol;
-using Floobits.Common.Protocol.FlooPatch;
 using Floobits.Common.Protocol.Json.Receive;
 using Floobits.Common.Protocol.Json.Send;
 using Floobits.Utilities;

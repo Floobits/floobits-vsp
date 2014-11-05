@@ -3,25 +3,25 @@ using System.IO;
 
 namespace Floobits.Common.Interfaces
 {
-    public interface IFile
+    public abstract class IFile
     {
-        public string getPath();
-        public bool rename(Object obj, string name);
-        public IFile makeFile(string name);
-        public bool move(Object obj, IFile d);
-        public bool delete(Object obj);
-        public IFile[] getChildren();
-        public string getName();
-        public long getLength();
-        public bool exists();
-        public bool isDirectory();
-        public bool isSpecial();
-        public bool isSymLink();
-        public bool isValid();
-        public byte[] getBytes();
-        public bool setBytes(byte[] bytes);
-        public void refresh();
-        public bool createDirectories(string dir);
-        public StreamReader getInputStream();
+        abstract public string getPath();
+        abstract public bool rename(Object obj, string name);
+        abstract public IFile makeFile(string name);
+        abstract public bool move(Object obj, IFile d);
+        abstract public bool delete(Object obj);
+        abstract public IFile[] getChildren();
+        abstract public string getName();
+        abstract public long getLength();
+        abstract public bool exists();
+        abstract public bool isDirectory();
+        abstract public bool isSpecial();
+        abstract public bool isSymLink();
+        abstract public bool isValid();
+        abstract public byte[] getBytes();
+        abstract public bool setBytes(byte[] bytes);
+        abstract public void refresh();
+        abstract public bool createDirectories(string dir);
+        abstract public StreamReader getInputStream();
     }
 }

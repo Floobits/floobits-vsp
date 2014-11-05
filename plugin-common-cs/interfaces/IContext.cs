@@ -26,8 +26,8 @@ namespace Floobits.Common.Interfaces
             editor = new EditorScheduler(this);
         }
 
-        public bool addGroup(Bootstrap b) {
 #if LATER
+        public bool addGroup(Bootstrap b) {
             bool b1 = false;
             try {
                 rwlock.EnterReadLock();
@@ -39,9 +39,9 @@ namespace Floobits.Common.Interfaces
                 rwlock.ExitReadLock();
             }
             return b1;
-#endif
             return true;
         }
+#endif
 
         public Timer setTimeout(int time, TimerCallback runnable) {
             return new Timer(runnable, null, time, Timeout.Infinite);

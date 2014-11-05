@@ -17,7 +17,8 @@ namespace Floobits.Common
         public static int maxErrorReports = 3;
         private static int numSent = 0;
 
-        public static T createFromJsonStream<T>(this Stream stream)
+        // Convert to an Extension Method (this param?), Move somewhere else? 
+        public static T createFromJsonStream<T>(Stream stream)
         {
             JsonSerializer serializer = new JsonSerializer();
             T data;

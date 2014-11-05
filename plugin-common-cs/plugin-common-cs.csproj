@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.cs" />
-    <Compile Include="Bootstrap.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CrashDump.cs" />
     <Compile Include="DigestUtils.cs" />
@@ -71,7 +70,6 @@
     <Compile Include="interfaces\IDoc.cs" />
     <Compile Include="interfaces\IFactory.cs" />
     <Compile Include="interfaces\IFile.cs" />
-    <Compile Include="Migrations.cs" />
     <Compile Include="OutboundRequestHandler.cs" />
     <Compile Include="FilenameUtils.cs" />
     <Compile Include="PersistentJson.cs" />
