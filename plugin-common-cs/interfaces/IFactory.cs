@@ -4,7 +4,7 @@ namespace Floobits.Common.Interfaces
 {
     public interface IFactory
     {
-        public IFile findFileByIoFile(File file);
+        public IFile findFileByIoFile(string filename);
         public IFile createFile(string path);
         public IDoc getDocument(IFile file);
         public IDoc getDocument(string relPath);
@@ -13,7 +13,7 @@ namespace Floobits.Common.Interfaces
         public IFile getOrCreateFile(string path);
         public void removeHighlightsForUser(int userID);
         public void removeHighlight(int userId, string path);
-        public bool openFile(File file);
+        public bool openFile(string filename);
         public void clearHighlights();
         public void clearReadOnlyState();
         public HashSet<string> readOnlyBufferIds = new HashSet<string>();
