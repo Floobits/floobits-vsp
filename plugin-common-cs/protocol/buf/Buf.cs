@@ -63,15 +63,15 @@ namespace Floobits.Common.Protocol.Buf
                     return new BinaryBuf(filePath, null, originalBytes, md5, context, outbound);
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 Flog.warn("Error getting virtual file contents in createBuf %s", virtualFile);
             }
             return null;
         }
     }
-    
-    
+
+
     public abstract class BufTempl<T> : Buf
     {
         public T buf;
@@ -90,7 +90,7 @@ namespace Floobits.Common.Protocol.Buf
             this.outbound = outbound;
         }
 
-        public void cancelTimeout()
+        public override void cancelTimeout()
         {
             if (timeout != null)
             {
@@ -100,12 +100,12 @@ namespace Floobits.Common.Protocol.Buf
             }
         }
 
-        public bool isPopulated()
+        public override bool isPopulated()
         {
             return this.id != null && this.buf != null;
         }
 
-        public bool isBufNull()
+        public override bool isBufNull()
         {
             return this.buf != null;
         }
@@ -137,7 +137,7 @@ namespace Floobits.Common.Protocol.Buf
             return string.Format("id: {0} file: {1}", id, path);
         }
 
-        public IFile createFile()
+        public override IFile createFile()
         {
             string fn = context.absPath(path);
             string name = Path.GetFileName(fn);
@@ -150,13 +150,5 @@ namespace Floobits.Common.Protocol.Buf
             }
             return iFile.makeFile(name);
         }
-
-        abstract public void read();
-        abstract public void write();
-        abstract public void set(string s, string md5);
-        abstract public void patch(FlooPatch res);
-        abstract public void send_patch(IFile virtualFile);
-        abstract public string serialize();
-
     }
 }

@@ -8,7 +8,6 @@ namespace Floobits.Common.Protocol.Json.Receive
     [Serializable]
     public class FlooHighlight : Base
     {
-        public string name = "highlight";
         public int id;
         public bool ping = false;
         public bool summon = false;
@@ -20,13 +19,15 @@ namespace Floobits.Common.Protocol.Json.Receive
         {
             this.following = following;
             this.id = buf.id.Value;
-            if (summon != null)
+            if (summon)
             {
                 this.summon = summon;
                 this.ping = summon;
             }
             this.ranges = ranges;
         }
+
+        protected override string getMessageName() { return "highlight"; }
     }
 }
 

@@ -24,7 +24,7 @@ namespace Floobits.Common
             }
             try {
                 return JsonConvert.DeserializeObject<FloorcJson>(str);
-            } catch (Exception e) {
+            } catch (Exception) {
                throw new Exception("Invalid JSON.");
            }
         }
@@ -57,7 +57,7 @@ namespace Floobits.Common
             Dictionary<string, Dictionary<string, string>> auth;
             try {
                 auth = get().auth;
-            } catch (Exception e) {
+            } catch (Exception) {
                 return false;
             }
             if (auth == null) {

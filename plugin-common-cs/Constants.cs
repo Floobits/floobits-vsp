@@ -1,9 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Floobits.Common
 {
     public class Constants {
-        static public string baseDir = FilenameUtils.concat(System.getProperty("user.home"), "floobits");
+        static public string baseDir = FilenameUtils.concat(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "floobits");
         static public string shareDir = FilenameUtils.concat(baseDir, "share");
         static public string version = "0.11";
         static public string pluginVersion = "0.01";

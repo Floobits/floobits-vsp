@@ -6,7 +6,6 @@ namespace Floobits.Common.Protocol
     [Serializable]
     public class FlooPatch : Base
     {
-        public string name = "patch";
         public int id;
         public int user_id;
         public string md5_after;
@@ -27,5 +26,7 @@ namespace Floobits.Common.Protocol
             this.id = buf.id.Value;
             this.patch = patch;
         }
+
+        protected override string getMessageName() { return "patch"; }
     }
 }

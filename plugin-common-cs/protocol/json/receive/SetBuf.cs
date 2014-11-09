@@ -7,7 +7,6 @@ namespace Floobits.Common.Protocol.Json.Receive
     [Serializable]
     public class SetBuf : Base
     {
-        public string name = "set_buf";
         public int id;
         public string buf;
         public string md5;
@@ -19,6 +18,8 @@ namespace Floobits.Common.Protocol.Json.Receive
             this.id = buf.id.Value;
             this.encoding = buf.encoding.ToString();
         }
+
+        protected override string getMessageName() { return "set_buf"; }
     }
 }
 

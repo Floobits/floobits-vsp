@@ -50,7 +50,7 @@ namespace Floobits.Common.Protocol.Handlers
 
         protected abstract void _on_data(string name, JObject obj);
 
-        public void on_data(string name, JObject obj)
+        public virtual void on_data(string name, JObject obj)
         {
             if (name.Equals("error"))
             {
@@ -72,12 +72,12 @@ namespace Floobits.Common.Protocol.Handlers
             return url;
         }
 
-        public void go()
+        public virtual void go()
         {
             isJoined = true;
         }
 
-        public void shutdown()
+        public virtual void shutdown()
         {
             if (conn != null)
             {

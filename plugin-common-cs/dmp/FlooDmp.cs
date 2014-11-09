@@ -6,7 +6,7 @@ namespace Floobits.Common.Dmp
 {
     public class FlooDmp : diff_match_patch {
 
-        public Object[] patch_apply(List<Patch> patches, string text) {
+        public new Object[] patch_apply(List<Patch> patches, string text) {
             if (patches.Count == 0) {
                 return new Object[]{text, new bool[0]};
             }

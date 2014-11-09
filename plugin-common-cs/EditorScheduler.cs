@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Diagnostics;
 using Floobits.Common.Interfaces;
@@ -9,13 +10,13 @@ namespace Floobits.Common
 {
     public class EditorScheduler
     {
-        public ConcurrentQueue<ThreadStart> queue_items = new ConcurrentQueue<ThreadStart>();
+        public ConcurrentQueue<Action> queue_items = new ConcurrentQueue<Action>();
         private IContext context;
         // buffer ids are not removed from readOnlyBufferIds
         private class dequeueRunnableWork
         {
-            private ConcurrentQueue<ThreadStart> queue;
-            public dequeueRunnableWork(ConcurrentQueue<ThreadStart> queue)
+            private ConcurrentQueue<Action> queue;
+            public dequeueRunnableWork(ConcurrentQueue<Action> queue)
             {
                 this.queue = queue;
             }
@@ -28,18 +29,18 @@ namespace Floobits.Common
                 while (true)
                 {
                     // TODO: set a limit here and continue later
-                    ThreadStart action;
+                    Action action;
                     if (!queue.TryDequeue(out action))
                     {
                         return;
                     }
-                    Thread thread = new Thread(action);
+                    Thread thread = new Thread(action.Invoke);
                     thread.Start();
                 }
             }
         }
 
-        private ThreadStart dequeueRunnable;
+        private Action dequeueRunnable;
 
         private class QueuedAction
         {
@@ -71,7 +72,7 @@ namespace Floobits.Common
         {
             this.context = context;
             dequeueRunnableWork dequeuerunnablework = new dequeueRunnableWork(this.queue_items);
-            this.dequeueRunnable = new ThreadStart(dequeuerunnablework.run);
+            this.dequeueRunnable = new Action(dequeuerunnablework.run);
         }
 
         public void shutdown()
@@ -87,10 +88,10 @@ namespace Floobits.Common
                 return;
             }
             QueuedAction queuedAction = new QueuedAction(buf, runnable);
-            queue(new ThreadStart(queuedAction.run));
+            queue(new Action(queuedAction.run));
         }
 
-        public void queue(ThreadStart runnable)
+        public void queue(Action runnable)
         {
             queue_items.Enqueue(runnable);
             if (queue_items.Count > 1)
@@ -102,7 +103,7 @@ namespace Floobits.Common
 
         public void reset()
         {
-            ThreadStart action;
+            Action action;
             while (queue_items.TryDequeue(out action)) ;
         }
 

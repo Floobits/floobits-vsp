@@ -130,7 +130,7 @@ namespace Floobits.Common
             HttpWebResponse resp;
             try {
                 resp = getWorkspaceMethod(f, context);
-            } catch (IOException e) {
+            } catch (IOException) {
                 return null;
             }
             

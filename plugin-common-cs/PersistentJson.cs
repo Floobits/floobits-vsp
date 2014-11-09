@@ -103,7 +103,7 @@ namespace Floobits.Common
             {
                 s = File.ReadAllText(getFile(), Encoding.UTF8);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Flog.info("Couldn't find persistent.json");
                 s = defaultJSON;
@@ -113,7 +113,7 @@ namespace Floobits.Common
             {
                 pj = JsonConvert.DeserializeObject<PersistentJson>(s);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Flog.warn("Bad JSON in persistent json");
                 pj = JsonConvert.DeserializeObject<PersistentJson>(s);

@@ -28,10 +28,8 @@ namespace Floobits.Common
             {
                 case "utf8":
                     return SysEncoding.UTF8;
-                    break;
                 case "base64":
                     return SysEncoding.ASCII;
-                    break;
                 default:
                     throw (new NotSupportedException());
             }

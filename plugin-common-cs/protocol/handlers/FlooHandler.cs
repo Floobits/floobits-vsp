@@ -28,7 +28,7 @@ namespace Floobits.Common.Protocol.Handlers
             state.username = auth["username"];
         }
 
-        public void go()
+        public override void go()
         {
             base.go();
             Flog.log("joining workspace %s", url);
@@ -46,13 +46,13 @@ namespace Floobits.Common.Protocol.Handlers
             editorEventHandler.go();
         }
 
-        public void on_connect()
+        public override void on_connect()
         {
             context.editor.reset();
             context.statusMessage(string.Format("Connecting to {0}.", url.toString()));
         }
 
-        public void _on_data(String name, JObject obj)
+        protected override void _on_data(String name, JObject obj)
         {
             Flog.debug("Calling %s", name);
             try

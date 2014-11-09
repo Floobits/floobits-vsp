@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 namespace Floobits.Common.Protocol
 {
     [Serializable]
-    public class Base
+    public abstract class Base
     {
-        public string name = null;
+        public string name;
+        protected Base()
+        {
+            this.name = getMessageName();
+        }
+        protected virtual string getMessageName() { return null; }
     }
 }

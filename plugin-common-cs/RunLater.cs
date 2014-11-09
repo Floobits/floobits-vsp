@@ -2,7 +2,7 @@
 
 namespace Floobits.Common
 {
-    public class RunLater<T>
+    public abstract class RunLater<T>
     {
         public abstract void run(T arg);
     }
@@ -14,7 +14,7 @@ namespace Floobits.Common
         {
             this.action = action;
         }
-        public void run(T arg)
+        public override void run(T arg)
         {
             action(arg);
         }

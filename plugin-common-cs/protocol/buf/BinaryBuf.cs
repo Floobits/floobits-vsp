@@ -18,7 +18,7 @@ namespace Floobits.Common.Protocol.Buf
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void read()
+        public override void read()
         {
             IFile virtualFile = getVirtualFile();
             if (virtualFile == null)
@@ -37,7 +37,7 @@ namespace Floobits.Common.Protocol.Buf
             md5 = DigestUtils.md5Hex(bytes);
         }
 
-        public void write()
+        public override void write()
         {
             context.writeThread(delegate
             {
@@ -76,7 +76,7 @@ namespace Floobits.Common.Protocol.Buf
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void set(string s, string md5)
+        public override void set(string s, string md5)
         {
             if (s == null)
             {
@@ -96,12 +96,12 @@ namespace Floobits.Common.Protocol.Buf
             this.md5 = md5;
         }
 
-        public string serialize()
+        public override string serialize()
         {
             return Convert.ToBase64String(buf);
         }
 
-        public void patch(FlooPatch res)
+        public override void patch(FlooPatch res)
         {
             FlooHandler flooHandler = context.getFlooHandler();
             if (flooHandler == null)
@@ -112,7 +112,7 @@ namespace Floobits.Common.Protocol.Buf
             set((byte[])null, null);
         }
 
-        public void send_patch(IFile virtualFile)
+        public override void send_patch(IFile virtualFile)
         {
             FlooHandler flooHandler = context.getFlooHandler();
             if (flooHandler == null)

@@ -5,7 +5,6 @@ namespace Floobits.Common.Protocol.Json.Send
     [Serializable]
     public class PermsChange : InitialBase
     {
-        string name = "perms";
         string action;
         int user_id;
         string[] perms;
@@ -15,5 +14,7 @@ namespace Floobits.Common.Protocol.Json.Send
             this.user_id = userId;
             this.perms = perms;
         }
+
+        protected override string getMessageName() { return "perms"; }
     }
 }

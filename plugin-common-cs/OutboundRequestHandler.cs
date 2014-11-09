@@ -143,7 +143,7 @@ namespace Floobits.Common
             }
             List<List<int>> ranges = new List<List<int>>();
             ranges.Add(new List<int> { offset, offset });
-            conn.write(new FlooHighlight(buf, ranges, true, state.stalking));
+            conn.write(new FlooHighlight(buf, ranges, true, false));
         }
 
         public void requestEdit()

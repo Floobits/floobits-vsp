@@ -18,6 +18,7 @@ namespace Floobits.Common
             public string url;
             public Dictionary<string, string> hooks;
         }
+
         public static string path(string base_dir)
         {
             return Path.Combine(base_dir, ".floo");
@@ -57,7 +58,7 @@ namespace Floobits.Common
             {
                 return new FlooUrl(dotFlooJson.url);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

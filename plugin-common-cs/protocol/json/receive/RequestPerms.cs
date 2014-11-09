@@ -6,9 +6,10 @@ namespace Floobits.Common.Protocol.Json.Receive
     [Serializable]
     public class RequestPerms : Base
     {
-        public string name = "request_perms";
         public int user_id;
         public string[] perms;
+
+        protected override string getMessageName() { return "request_perms"; }
     }
 }
 

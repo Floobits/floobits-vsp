@@ -6,12 +6,13 @@ namespace Floobits.Common.Protocol.Json.Send
     [Serializable]
     public class GetBuf : Base
     {
-        public string name = "get_buf";
         public int id;
 
         public GetBuf(int buf_id)
         {
             this.id = buf_id;
         }
+
+        protected override string getMessageName() { return "get_buf"; }
     }
 }

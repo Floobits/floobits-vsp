@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Floobits.Common.Protocol.Buf;
 using Floobits.Common.Interfaces;
@@ -11,7 +12,8 @@ namespace Floobits.Common
     public class FloobitsState
     {
         public JObject lastHighlight;
-        public bool stalking = false;
+        public bool following = false;
+        private Timer pausedFollowing;
         public HashSet<string> perms = new HashSet<string>();
         private Dictionary<int, FlooUser> users = new Dictionary<int, FlooUser>();
         public Dictionary<int, Buf> bufs = new Dictionary<int, Buf>();
@@ -61,7 +63,7 @@ namespace Floobits.Common
         {
             paths_to_ids.Remove(buf.path);
             buf.path = newPath;
-            paths_to_ids.Add(buf.path, buf.id);
+            paths_to_ids.Add(buf.path, buf.id.Value);
         }
 
         public Buf get_buf_by_path(string absPath)
@@ -109,6 +111,7 @@ namespace Floobits.Common
 
         public void removeUser(int userId)
         {
+            FlooUser u = getUser(userId);
             if (users.Remove(userId))
             {
                 context.setUsers(users);
@@ -151,6 +154,53 @@ namespace Floobits.Common
         public void shutdown()
         {
             bufs = null;
+        }
+
+        public bool getFollowing()
+        {
+            return following;
+        }
+
+        public void setFollowing(bool following)
+        {
+            this.pauseFollowing(false);
+            this.following = following;
+        }
+
+        public bool getPausedFollowing()
+        {
+            return pausedFollowing != null;
+        }
+
+        public void pauseFollowing(bool pause)
+        {
+            /*
+            Possible states:
+                Not following, not paused.
+                Following, not paused.
+                Following, paused.
+
+            Impossible state:
+                Not following, paused. Paused means following, just not active. Anytime we set follow, we must cancel any pause.
+             */
+            if (this.pausedFollowing != null)
+            {
+                following = true;
+                this.pausedFollowing.Dispose();
+            }
+            this.pausedFollowing = null;
+            if (pause)
+            {
+                if (!following)
+                {
+                    return;
+                }
+                following = false;
+                this.pausedFollowing = context.setTimeout(2000, delegate
+                {
+                    pauseFollowing(false);
+                });
+            }
         }
     }
 }

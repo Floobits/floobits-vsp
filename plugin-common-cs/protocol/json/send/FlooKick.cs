@@ -6,13 +6,14 @@ namespace Floobits.Common.Protocol.Json.Send
     [Serializable]
     public class FlooKick : Base
     {
-        string name = "kick";
         int user_id;
 
         public FlooKick(int userId)
         {
             this.user_id = userId;
         }
+
+        protected override string getMessageName() { return "kick"; }
     }
 }
 

@@ -26,7 +26,7 @@ namespace Floobits.Common
         public static string toProjectRelPath (string path, string p1) {
             try {
                 return getRelativePath(path, p1);
-            } catch (PathResolutionException e) {
+            } catch (PathResolutionException) {
                 return null;
             }
         }
@@ -92,7 +92,7 @@ namespace Floobits.Common
                 string unFuckedPath = unFuckPath(path);
                 string relativePath = getRelativePath(unFuckedPath, parent);
                 return !relativePath.Contains("..");
-            } catch (Exception e) {
+            } catch (Exception) {
                 return false;
             }
         }
