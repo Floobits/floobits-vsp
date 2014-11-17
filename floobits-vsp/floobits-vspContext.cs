@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE;
 using EnvDTE80;
+using Floobits.floobits_vsp;
+using Floobits.Common;
+using Floobits.Common.Protocol;
 using Floobits.Common.Interfaces;
 
 namespace Floobits.Context
@@ -29,25 +33,121 @@ namespace Floobits.Context
             owP.OutputString(message + "\r\n");
         }
 
-        public void flashMessage(string message)
+        public override void flashMessage(string message)
         {
             // Add a line of text to the new pane.
             owP.OutputString("FLASH : " + message + "\r\n");
         }
-        public void warnMessage(string message)
+        public override void warnMessage(string message)
         {
             // Add a line of text to the new pane.
             owP.OutputString("WARN  : " + message + "\r\n");
         }
-        public void statusMessage(string message)
+        public override void statusMessage(string message)
         {
             // Add a line of text to the new pane.
             owP.OutputString("STATUS: " + message + "\r\n");
         }
-        public void errorMessage(string message)
+        public override void errorMessage(string message)
         {
             // Add a line of text to the new pane.
             owP.OutputString("ERROR : " + message + "\r\n");
+        }
+
+        protected override void shareProjectDialog(string name, LinkedList<string> orgs, string host, bool _private_, string projectPath)
+        {
+            var d = new ShareProject(this, _private_, orgs);
+            d.ShowDialog();
+        }
+
+        protected override string selectAccount(string[] keys)
+        {
+            return "account";
+        }
+
+        public override Object getActualContext()
+        {
+            return null;
+        }
+
+        public override void loadChatManager()
+        {
+
+        }
+
+        public override void chatStatusMessage(string message)
+        {
+
+        }
+
+        public override void chatErrorMessage(string message)
+        {
+
+        }
+
+        public override void chat(string username, string msg, DateTime messageDate)
+        {
+
+        }
+
+        public override void openChat()
+        {
+
+        }
+
+        public override void listenToEditor(EditorEventHandler editorEventHandler)
+        {
+
+        }
+
+        public override void setUsers(Dictionary<int, FlooUser> users)
+        {
+
+        }
+
+        public override void setListener(bool b)
+        {
+
+        }
+
+        public override void mainThread(Action runnable)
+        {
+
+        }
+
+        public override void readThread(Action runnable)
+        {
+
+        }
+
+        public override void writeThread(Action runnable)
+        {
+
+        }
+
+        public override void dialog(string title, string body, RunLater<bool> runLater)
+        {
+
+        }
+
+        public override void dialogDisconnect(int tooMuch, int howMany)
+        {
+
+        }
+
+        public override void dialogPermsRequest(string username, RunLater<string> perms)
+        {
+
+        }
+
+        public override bool dialogTooBig(LinkedList<Ignore> tooBigIgnores)
+        {
+            return false;
+        }
+
+        public override void dialogResolveConflicts(Action stompLocal, Action stompRemote, bool readOnly, Action flee, string[] conflictedPathsArray)
+        {
+
         }
     }
 }

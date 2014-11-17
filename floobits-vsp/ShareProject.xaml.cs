@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.VisualStudio.PlatformUI;
+using Floobits.Common;
+using Floobits.Common.Interfaces;
 
 namespace Floobits.floobits_vsp
 {
@@ -20,14 +22,27 @@ namespace Floobits.floobits_vsp
     /// </summary>
     public partial class ShareProject : DialogWindow
     {
-        public ShareProject()
+        IContext context;
+        bool _private;
+        
+        public ShareProject(IContext context, bool _private, LinkedList<string> orgs)
         {
             InitializeComponent();
+            this.context = context;
+            this._private = _private;
+
+            if (this._private)
+            {
+                this.Title = string.Concat(this.Title, " Privately");
+            }
+
+            this.owner.ItemsSource = orgs;
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
-            //API.createWorkspace("staging.floobits.com", "rje-test", "horsey", context, false);
+            Object item = owner.SelectedItem;
+            API.createWorkspace("staging.floobits.com", item.ToString(), name.Text, context, _private);
             this.Close();
         }
 

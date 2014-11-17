@@ -109,6 +109,10 @@ namespace Floobits.floobits_vsp
                 menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidCreatePublicWorkspace);
                 menuItem = new MenuCommand(MenuItemCreatePublicWorkspaceCallback, menuCommandID);
                 mcs.AddCommand(menuItem);
+                // Create the command for the menu item.
+                menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidCreatePrivateWorkspace);
+                menuItem = new MenuCommand(MenuItemCreatePrivateWorkspaceCallback, menuCommandID);
+                mcs.AddCommand(menuItem);
                 // Create the command for the tool window
                 CommandID toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooTool);
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
@@ -148,8 +152,12 @@ namespace Floobits.floobits_vsp
 
         private void MenuItemCreatePublicWorkspaceCallback(object sender, EventArgs e)
         {
-            var d = new ShareProject();
-            d.ShowDialog();
+            context.shareProject(false, "horsey");
+        }
+
+        private void MenuItemCreatePrivateWorkspaceCallback(object sender, EventArgs e)
+        {
+            context.shareProject(true, "horsey");
         }
     }
 }

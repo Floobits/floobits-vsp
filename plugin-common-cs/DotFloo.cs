@@ -34,7 +34,7 @@ namespace Floobits.Common
             }
             catch (Exception e)
             {
-                Flog.debug(String.Format("no floo file {0} read exception {1]", path(base_dir), e.ToString()));
+                Flog.debug(String.Format("no floo file {0} read exception {1}", path(base_dir), e.ToString()));
                 return null;
             }
 

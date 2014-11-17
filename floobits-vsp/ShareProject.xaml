@@ -8,7 +8,7 @@
         <TextBox HorizontalAlignment="Left" Height="23" Margin="80,55,0,0" TextWrapping="Wrap" Name="name" Text="name" VerticalAlignment="Top" Width="120"/>
         <Label HorizontalAlignment="Left" Margin="35,125,0,0" VerticalAlignment="Top" Target="{Binding ElementName=owner}">Select the owner for this workspace:</Label>
         <ComboBox HorizontalAlignment="Left" Margin="80,160,0,0" VerticalAlignment="Top" Width="120" Name="owner"/>
-        <Button Content="Create Workspace" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" Width="125" IsDefault="True" Name="Create"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="155,224,0,0" VerticalAlignment="Top" Width="125" IsCancel="True" Name="Cancel"/>
+        <Button Content="Create Workspace" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" Width="125" IsDefault="True" Name="Create" Click="Create_Click"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="155,224,0,0" VerticalAlignment="Top" Width="125" Name="Cancel" Click="Cancel_Click"/>
     </Grid>
 </ui:DialogWindow>
