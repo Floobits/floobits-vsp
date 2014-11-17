@@ -56,13 +56,15 @@ namespace Floobits.Context
 
         protected override void shareProjectDialog(string name, LinkedList<string> orgs, string host, bool _private_, string projectPath)
         {
-            var d = new ShareProject(this, _private_, orgs);
+            var d = new ShareProject(this, name, orgs, host, _private_, projectPath);
             d.ShowDialog();
         }
 
         protected override string selectAccount(string[] keys)
         {
-            return "account";
+            var d = new SelectAccount(keys);
+            d.ShowDialog();
+            return d.getAccount();
         }
 
         public override Object getActualContext()

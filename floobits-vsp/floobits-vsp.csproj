@@ -130,7 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="floobits-vspContext.cs" />
-    <Compile Include="FloobitsApplication.cs" />
     <Compile Include="FlooConstants.cs" />
     <Compile Include="MyControl.xaml.cs">
       <DependentUpon>MyControl.xaml</DependentUpon>
@@ -146,6 +145,9 @@
     <Compile Include="floobits-vspPackage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PkgCmdID.cs" />
+    <Compile Include="SelectAccount.xaml.cs">
+      <DependentUpon>SelectAccount.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ShareProject.xaml.cs">
       <DependentUpon>ShareProject.xaml</DependentUpon>
     </Compile>
@@ -182,6 +184,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="MyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SelectAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -42,7 +42,6 @@ namespace Floobits.floobits_vsp
     {
 
         VSPContext context = new VSPContext();
-        Application app = new Application();
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -133,7 +132,7 @@ namespace Floobits.floobits_vsp
             //string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.auth);
 
             //API.createWorkspace("staging.floobits.com", "rje-test", "horsey", context, false);
-            app.joinWorkspace(context, url, "horsey");
+            context.joinWorkspace(url, "horsey", false);
 #if OLD
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
                        0,

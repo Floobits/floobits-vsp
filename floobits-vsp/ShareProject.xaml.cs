@@ -23,13 +23,18 @@ namespace Floobits.floobits_vsp
     public partial class ShareProject : DialogWindow
     {
         IContext context;
+        string host;
         bool _private;
-        
-        public ShareProject(IContext context, bool _private, LinkedList<string> orgs)
+        string path;
+
+        public ShareProject(IContext context, string name, LinkedList<string> orgs, string host, bool _private, string path)
         {
             InitializeComponent();
             this.context = context;
+            this.name.Text = name;
             this._private = _private;
+            this.path = path;
+            this.host = host;
 
             if (this._private)
             {
@@ -37,12 +42,13 @@ namespace Floobits.floobits_vsp
             }
 
             this.owner.ItemsSource = orgs;
+            this.owner.SelectedIndex = 0;
         }
 
         private void Create_Click(object sender, RoutedEventArgs e)
         {
             Object item = owner.SelectedItem;
-            API.createWorkspace("staging.floobits.com", item.ToString(), name.Text, context, _private);
+            API.createWorkspace(host, item.ToString(), name.Text, context, _private);
             this.Close();
         }
 
