@@ -42,6 +42,7 @@ namespace Floobits.floobits_vsp
     {
 
         VSPContext context = new VSPContext();
+        Application app = new Application();
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -99,9 +100,15 @@ namespace Floobits.floobits_vsp
             if ( null != mcs )
             {
                 // Create the command for the menu item.
-                CommandID menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidJoinWorkspace);
-                MenuCommand menuItem = new MenuCommand(MenuItemJoinWorkspaceCallback, menuCommandID );
-                mcs.AddCommand( menuItem );
+                CommandID menuCommandID;
+                MenuCommand menuItem;
+                menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidJoinWorkspace);
+                menuItem = new MenuCommand(MenuItemJoinWorkspaceCallback, menuCommandID);
+                mcs.AddCommand(menuItem);
+                // Create the command for the menu item.
+                menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidCreatePublicWorkspace);
+                menuItem = new MenuCommand(MenuItemCreatePublicWorkspaceCallback, menuCommandID);
+                mcs.AddCommand(menuItem);
                 // Create the command for the tool window
                 CommandID toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooTool);
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
@@ -110,11 +117,6 @@ namespace Floobits.floobits_vsp
         }
         #endregion
 
-        /// <summary>
-        /// This function is the callback used to execute a command when the a menu item is clicked.
-        /// See the Initialize method to see how the menu item is associated to this function using
-        /// the OleMenuCommandService service and the MenuCommand class.
-        /// </summary>
         private void MenuItemJoinWorkspaceCallback(object sender, EventArgs e)
         {
             // Show a Message Box to prove we were here
@@ -123,10 +125,12 @@ namespace Floobits.floobits_vsp
             int result;
 
             FloorcJson rcfile = Settings.get();
-            string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.auth);
+            FlooUrl url = new FlooUrl("https://staging.floobits.com/rje-test/noidea");
+            //string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.auth);
 
-            API.createWorkspace("staging.floobits.com", "rje_test", "horse", context, false);
-
+            //API.createWorkspace("staging.floobits.com", "rje-test", "horsey", context, false);
+            app.joinWorkspace(context, url, "horsey");
+#if OLD
             Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
                        0,
                        ref clsid,
@@ -139,7 +143,13 @@ namespace Floobits.floobits_vsp
                        OLEMSGICON.OLEMSGICON_INFO,
                        0,        // false
                        out result));
+#endif
         }
 
+        private void MenuItemCreatePublicWorkspaceCallback(object sender, EventArgs e)
+        {
+            var d = new ShareProject();
+            d.ShowDialog();
+        }
     }
 }

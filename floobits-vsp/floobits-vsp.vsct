@@ -81,6 +81,19 @@
         </Strings>
       </Button>
 
+      <Button guid="guidfloobits_vspCmdSet" id="cmdidCreatePublicWorkspace" priority="0x0100" type="Button">
+        <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
+        <Strings>
+          <ButtonText>Create Public Workspace</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidfloobits_vspCmdSet" id="cmdidCreatePrivateWorkspace" priority="0x0100" type="Button">
+        <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
+        <Strings>
+          <ButtonText>Create Private Workspace</ButtonText>
+        </Strings>
+      </Button>
 
       <Button guid="guidfloobits_vspCmdSet" id="cmdidFlooTool" priority="0x0100" type="Button">
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
@@ -121,6 +134,8 @@
       <IDSymbol name="MySubMenuGroup" value="0x1021" />
       <IDSymbol name="SubMenu" value="0x0100" />
       <IDSymbol name="cmdidJoinWorkspace" value="0x0200" />
+      <IDSymbol name="cmdidCreatePublicWorkspace" value="0x0201" />
+      <IDSymbol name="cmdidCreatePrivateWorkspace" value="0x0202" />
       <IDSymbol name="cmdidFlooTool" value="0x0101" />
     </GuidSymbol>
     
