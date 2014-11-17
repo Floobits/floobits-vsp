@@ -2,13 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
-        Title="Share Project" Height="300" Width="300">
-    <Grid>
-        <Label HorizontalAlignment="Left" Margin="35,25,0,0" VerticalAlignment="Top" Target="{Binding ElementName=name}">Choose a name for this workspace:</Label>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="80,55,0,0" TextWrapping="Wrap" Name="name" Text="name" VerticalAlignment="Top" Width="120"/>
-        <Label HorizontalAlignment="Left" Margin="35,125,0,0" VerticalAlignment="Top" Target="{Binding ElementName=owner}">Select the owner for this workspace:</Label>
-        <ComboBox HorizontalAlignment="Left" Margin="80,160,0,0" VerticalAlignment="Top" Width="120" Name="owner"/>
-        <Button Content="Create Workspace" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" Width="125" IsDefault="True" Name="Create" Click="Create_Click"/>
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="155,224,0,0" VerticalAlignment="Top" Width="125" Name="Cancel" Click="Cancel_Click"/>
+        Title="Share Project" Height="220" Width="300">
+    <Grid Height="196" VerticalAlignment="Top">
+        <Label HorizontalAlignment="Left" Margin="35,14,0,0" VerticalAlignment="Top" Target="{Binding ElementName=name}">Choose a name for this workspace:</Label>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="80,44,0,0" TextWrapping="Wrap" Name="name" Text="name" VerticalAlignment="Top" Width="120"/>
+        <Label HorizontalAlignment="Left" Margin="35,76,0,0" VerticalAlignment="Top" Target="{Binding ElementName=owner}">Select the owner for this workspace:</Label>
+        <ComboBox HorizontalAlignment="Left" Margin="80,111,0,0" VerticalAlignment="Top" Width="120" Name="owner"/>
+        <Button Content="Create Workspace" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="125" IsDefault="True" Name="Create" Click="Create_Click"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="157,159,0,0" VerticalAlignment="Top" Width="125" Name="Cancel" Click="Cancel_Click"/>
     </Grid>
 </ui:DialogWindow>
