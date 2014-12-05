@@ -111,31 +111,40 @@ namespace Floobits.Common
             }
         }
 
-        public static bool updateWorkspace(FlooUrl f, HTTPWorkspaceRequest workspaceRequest, IContext context) {
+        public static bool updateWorkspace(FlooUrl f, HTTPWorkspaceRequest workspaceRequest, IContext context)
+        {
             HttpWebRequest req = genPutRequest(string.Format("https://{0}/api/workspace/{1}/{2}", f.host, f.owner, f.workspace), workspaceRequest);
             HttpWebResponse resp;
-            try {
+            try
+            {
                 resp = apiRequest(req, context, f.host);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 context.errorMessage(String.Format("Could not create workspace: {0}", e.ToString()));
                 return false;
             }
 
-            Flog.log(resp.GetResponseStream().ToString());
+            Flog.log(new StreamReader(resp.GetResponseStream()).ReadToEnd());
             return (int)resp.StatusCode < 300;
         }
 
-        public static HTTPWorkspaceRequest getWorkspace(FlooUrl f, IContext context) {
+        public static HTTPWorkspaceRequest getWorkspace(FlooUrl f, IContext context)
+        {
 
             HttpWebResponse resp;
-            try {
+            try
+            {
                 resp = getWorkspaceMethod(f, context);
-            } catch (IOException) {
+            }
+            catch (IOException)
+            {
                 return null;
             }
-            
+
             // Redirects aren't followed, so die here
-            if ((int)resp.StatusCode >= 300) {
+            if ((int)resp.StatusCode >= 300)
+            {
                 PersistentJson.removeWorkspace(f);
                 return null;
             }
@@ -143,19 +152,26 @@ namespace Floobits.Common
             return createFromJsonStream<HTTPWorkspaceRequest>(resp.GetResponseStream());
         }
 
-        public static bool workspaceExists(FlooUrl f, IContext context) {
-            if (f == null) {
+        public static bool workspaceExists(FlooUrl f, IContext context)
+        {
+            if (f == null)
+            {
                 return false;
             }
             HttpWebResponse resp;
-            try {
+            try
+            {
                 resp = getWorkspaceMethod(f, context);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Flog.warn(e.ToString());
                 return false;
             }
 
-            if ((int)resp.StatusCode >= 300){
+            if ((int)resp.StatusCode >= 300)
+            {
+                context.errorMessage(new StreamReader(resp.GetResponseStream()).ReadToEnd());
                 PersistentJson.removeWorkspace(f);
                 return false;
             }
@@ -167,7 +183,7 @@ namespace Floobits.Common
             return apiRequest(genGetRequest(String.Format("https://{0}{1}", f.host, String.Format("/api/workspace/{0}/{1}", f.owner, f.workspace))), context, f.host);
         }
 
-	    static public HttpWebResponse apiRequest(HttpWebRequest method, IContext context, String host)
+        static public HttpWebResponse apiRequest(HttpWebRequest method, IContext context, String host)
         {
             FloorcJson floorc = Settings.get();
             try
@@ -200,29 +216,38 @@ namespace Floobits.Common
             return resp;
         }
 
-        static public LinkedList<string> getOrgsCanAdmin(string host, IContext context) {
+        static public LinkedList<string> getOrgsCanAdmin(string host, IContext context)
+        {
             HttpWebRequest req = genGetRequest(String.Format("https://{0}{1}", host, "/api/orgs/can/admin"));
             LinkedList<string> orgs = new LinkedList<string>();
             HttpWebResponse resp;
-            try {
+            try
+            {
                 resp = apiRequest(req, context, host);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Flog.warn(e.ToString());
                 return orgs;
             }
 
-            if ((int)resp.StatusCode >= 400) {
+            if ((int)resp.StatusCode >= 400)
+            {
                 return orgs;
             }
 
-            try {
+            try
+            {
                 StreamReader reader = new StreamReader(resp.GetResponseStream());
                 JToken tokens = JToken.Parse(reader.ReadToEnd());
-    
-                foreach (JToken token in tokens) {
+
+                foreach (JToken token in tokens)
+                {
                     orgs.AddLast(token.Value<string>("name"));
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Flog.warn(e.ToString());
                 context.errorMessage("Error getting Floobits organizations. Try again later or please contact support.");
             }
@@ -230,7 +255,8 @@ namespace Floobits.Common
             return orgs;
         }
 
-        static public void uploadCrash(BaseHandler baseHandler, IContext context, Exception throwable) {
+        static public void uploadCrash(BaseHandler baseHandler, IContext context, Exception throwable)
+        {
 #if LATER
             numSent++;
             if (numSent >= maxErrorReports) {
@@ -282,7 +308,8 @@ namespace Floobits.Common
 #endif
         }
 
-        static public void uploadCrash(IContext context, Exception throwable) {
+        static public void uploadCrash(IContext context, Exception throwable)
+        {
             uploadCrash(context.handler, context, throwable);
         }
 #if LATER
