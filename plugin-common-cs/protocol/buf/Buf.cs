@@ -24,7 +24,6 @@ namespace Floobits.Common.Protocol.Buf
         abstract public bool isPopulated();
         abstract public bool isBufNull();
         abstract public override string ToString();
-        abstract public IFile createFile();
         abstract public void read();
         abstract public void write();
         abstract public void set(string s, string md5);
@@ -135,20 +134,6 @@ namespace Floobits.Common.Protocol.Buf
         public override string ToString()
         {
             return string.Format("id: {0} file: {1}", id, path);
-        }
-
-        public override IFile createFile()
-        {
-            string fn = context.absPath(path);
-            string name = Path.GetFileName(fn);
-            string parentPath = Path.GetFullPath(fn);
-            IFile iFile = context.iFactory.createDirectories(parentPath);
-            if (iFile == null)
-            {
-                context.errorMessage("The Floobits plugin was unable to create a file.");
-                return null;
-            }
-            return iFile.makeFile(name);
         }
     }
 }

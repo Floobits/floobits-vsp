@@ -4,18 +4,22 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using EnvDTE;
 using EnvDTE80;
-using Floobits.floobits_vsp;
 using Floobits.Common;
 using Floobits.Common.Protocol;
 using Floobits.Common.Interfaces;
 
-namespace Floobits.Context
+namespace Floobits.floobits_vsp
 {
     public class VSPContext : IContext
     {
         private DTE2 package_dte;
         private OutputWindow ow;
         private OutputWindowPane owP;
+
+        public VSPContext()
+        {
+            this.iFactory = new VSPFactory(this);
+        }
 
         public void Initialize(DTE2 dte)
         {

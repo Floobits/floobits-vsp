@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -10,7 +11,6 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Floobits.Common;
-using Floobits.Context;
 using EnvDTE;
 using EnvDTE80;
 
@@ -122,36 +122,22 @@ namespace Floobits.floobits_vsp
 
         private void MenuItemJoinWorkspaceCallback(object sender, EventArgs e)
         {
-            // Show a Message Box to prove we were here
-            IVsUIShell uiShell = (IVsUIShell)GetService(typeof(SVsUIShell));
-            Guid clsid = Guid.Empty;
-            int result;
+            // get current solution
+            IVsSolution solution = (IVsSolution)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(IVsSolution));
+            string soldir, solfile, uso;
+            int ret = solution.GetSolutionInfo(out soldir, out solfile, out uso);
 
-            FloorcJson rcfile = Settings.get();
-            FlooUrl url = new FlooUrl("https://staging.floobits.com/rje-test/noidea");
-            //string diag = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback({1}, {2})  {3}", this.ToString(), sender.ToString(), e.ToString(), rcfile.auth);
-
-            //API.createWorkspace("staging.floobits.com", "rje-test", "horsey", context, false);
-            context.joinWorkspace(url, "horsey", false);
-#if OLD
-            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(uiShell.ShowMessageBox(
-                       0,
-                       ref clsid,
-                       "floobits-vsp",
-                       diag,
-                       string.Empty,
-                       0,
-                       OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                       OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST,
-                       OLEMSGICON.OLEMSGICON_INFO,
-                       0,        // false
-                       out result));
-#endif
+            var d = new JoinWorkspaceURL(context, soldir);
+            d.ShowDialog();
         }
 
         private void MenuItemCreatePublicWorkspaceCallback(object sender, EventArgs e)
         {
-            context.shareProject(false, "horsey");
+            // get current solution
+            IVsSolution solution = (IVsSolution)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(IVsSolution));
+            string soldir, solfile, uso;
+            int ret = solution.GetSolutionInfo(out soldir, out solfile, out uso);
+            context.shareProject(false, soldir);
         }
 
         private void MenuItemCreatePrivateWorkspaceCallback(object sender, EventArgs e)

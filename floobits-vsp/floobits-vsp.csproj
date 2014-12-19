@@ -130,7 +130,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="floobits-vspContext.cs" />
+    <Compile Include="floobits-vspFactory.cs" />
+    <Compile Include="floobits-vspFile.cs" />
     <Compile Include="FlooConstants.cs" />
+    <Compile Include="JoinWorkspaceURL.xaml.cs">
+      <DependentUpon>JoinWorkspaceURL.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MyControl.xaml.cs">
       <DependentUpon>MyControl.xaml</DependentUpon>
     </Compile>
@@ -183,6 +188,10 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="JoinWorkspaceURL.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -243,11 +243,11 @@ namespace Floobits.Common
                 }
                 context.setListener(false);
                 File.WriteAllLines(flooignore, strings);
-                IFile fileByIoFile = context.iFactory.findFileByIoFile(flooignore);
-                if (fileByIoFile != null)
+                IFile fileByPath = context.iFactory.findFileByPath(flooignore);
+                if (fileByPath != null)
                 {
-                    fileByIoFile.refresh();
-                    ignoreTree.addRules(fileByIoFile);
+                    fileByPath.refresh();
+                    ignoreTree.addRules(fileByPath);
                 }
             }
             catch (IOException e)
@@ -298,7 +298,7 @@ namespace Floobits.Common
                 string newFileName = Path.GetFileName(newPath);
                 // Rename file
 
-                if (foundFile.rename(null, newFileName))
+                if (foundFile.rename(newFileName))
                 {
                     return;
                 }
@@ -317,7 +317,7 @@ namespace Floobits.Common
                     return;
                 }
 
-                foundFile.move(null, directory);
+                foundFile.move(directory);
             }));
         }
 
@@ -386,7 +386,7 @@ namespace Floobits.Common
                     return;
                 }
 
-                fileByPath.delete(this);
+                fileByPath.delete();
             }));
         }
 

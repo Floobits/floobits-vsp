@@ -263,8 +263,10 @@ namespace Floobits.Common.Interfaces
 
         public void refreshIgnores()
         {
-            IFile fileByIoFile = iFactory.findFileByIoFile(colabDir);
-            ignoreTree = Ignore.BuildIgnore(fileByIoFile);
+#if LATER
+            IFile path = iFactory.findFileByPath(colabDir);
+            ignoreTree = Ignore.BuildIgnore(path);
+#endif
         }
 
         public String absPath(String path)

@@ -6,10 +6,9 @@ namespace Floobits.Common.Interfaces
     public abstract class IFile
     {
         abstract public string getPath();
-        abstract public bool rename(Object obj, string name);
-        abstract public IFile makeFile(string name);
-        abstract public bool move(Object obj, IFile d);
-        abstract public bool delete(Object obj);
+        abstract public bool rename(string name);
+        abstract public bool move(IFile d);
+        abstract public bool delete();
         abstract public IFile[] getChildren();
         abstract public string getName();
         abstract public long getLength();

@@ -4,7 +4,6 @@ namespace Floobits.Common.Interfaces
 {
     public abstract class IFactory
     {
-        abstract public IFile findFileByIoFile(string filename);
         abstract public IFile createFile(string path);
         abstract public IDoc getDocument(IFile file);
         abstract public IDoc getDocument(string relPath);

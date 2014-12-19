@@ -18,35 +18,30 @@ using Floobits.Common.Interfaces;
 namespace Floobits.floobits_vsp
 {
     /// <summary>
-    /// Interaction logic for SelectAccount.xaml
+    /// Interaction logic for JoinWorkspaceURL.xaml
     /// </summary>
-    public partial class SelectAccount : DialogWindow
+    public partial class JoinWorkspaceURL : DialogWindow
     {
-        public SelectAccount(string [] accounts)
+        IContext context;
+        string path;
+
+        public JoinWorkspaceURL(IContext context, string path)
         {
             InitializeComponent();
-            this.account.ItemsSource = accounts;
+            this.context = context;
+            this.url.Text = "https://floobits.com/";
+            this.path = path;
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            this.account.SelectedIndex = -1;
             this.Close();
         }
 
-        private void OK_Click(object sender, RoutedEventArgs e)
+        private void Join_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
-        }
-
-        public string getAccount()
-        {
-            string ret = null;
-            if (this.account.SelectedItem != null)
-            {
-                ret = this.account.SelectedItem.ToString();
-            }
-            return ret;
+            FlooUrl floourl = new FlooUrl(url.Text);
+            context.joinWorkspace(floourl, path, false);
         }
     }
 }

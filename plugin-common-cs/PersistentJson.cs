@@ -51,7 +51,7 @@ namespace Floobits.Common
                 this.workspaces[flooUrl.owner] = workspaces;
             }
             Workspace workspace;
-            if (workspaces.TryGetValue(flooUrl.workspace, out workspace))
+            if (!workspaces.TryGetValue(flooUrl.workspace, out workspace))
             {
                 workspace = new Workspace(flooUrl.toString(), path);
                 workspaces[flooUrl.workspace] = workspace;

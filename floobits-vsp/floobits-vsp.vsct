@@ -80,7 +80,7 @@
           <ButtonText>Join Workspace</ButtonText>
         </Strings>
       </Button>
-
+      
       <Button guid="guidfloobits_vspCmdSet" id="cmdidCreatePublicWorkspace" priority="0x0100" type="Button">
         <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
         <Strings>

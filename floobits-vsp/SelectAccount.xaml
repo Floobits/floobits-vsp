@@ -1,6 +1,7 @@
-﻿<Window x:Class="Floobits.floobits_vsp.SelectAccount"
+﻿<ui:DialogWindow x:Class="Floobits.floobits_vsp.SelectAccount"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.12.0"
         Title="Select Account" Height="118" Width="300">
     <Grid>
         <Label Content="Select Account:" HorizontalAlignment="Left" Height="27" Margin="10,10,0,0" VerticalAlignment="Top" Width="94" RenderTransformOrigin="-0.223,0.037"/>
@@ -8,4 +9,4 @@
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="207,57,0,0" VerticalAlignment="Top" Width="75" Name="Cancel" Click="Cancel_Click"/>
         <Button Content="OK" HorizontalAlignment="Left" Margin="109,57,0,0" VerticalAlignment="Top" Width="75" Name="OK" Click="OK_Click"/>
     </Grid>
-</Window>
+</ui:DialogWindow>

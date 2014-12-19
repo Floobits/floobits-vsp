@@ -54,8 +54,8 @@ namespace Floobits.Common.Client
                 // Create a TCP/IP socket.
                 client = new Socket(AddressFamily.InterNetwork,
                     SocketType.Stream, ProtocolType.Tcp);
-                client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.KeepAlive, true);
-                client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+                client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
+                client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
 
                 // Connect to the remote endpoint.
                 client.BeginConnect(remoteEP,
