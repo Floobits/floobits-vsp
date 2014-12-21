@@ -52,6 +52,7 @@ namespace Floobits.floobits_vsp
         public floobits_vspPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
+            Directory.CreateDirectory(Floobits.Common.Constants.baseDir);
         }
 
         /// <summary>
@@ -105,6 +106,10 @@ namespace Floobits.floobits_vsp
                 menuItem = new MenuCommand(MenuItemJoinWorkspaceCallback, menuCommandID);
                 mcs.AddCommand(menuItem);
                 // Create the command for the menu item.
+                menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidJoinRecentWorkspace);
+                menuItem = new MenuCommand(MenuItemJoinRecentWorkspaceCallback, menuCommandID);
+                mcs.AddCommand(menuItem);
+                // Create the command for the menu item.
                 menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidCreatePublicWorkspace);
                 menuItem = new MenuCommand(MenuItemCreatePublicWorkspaceCallback, menuCommandID);
                 mcs.AddCommand(menuItem);
@@ -128,6 +133,12 @@ namespace Floobits.floobits_vsp
             int ret = solution.GetSolutionInfo(out soldir, out solfile, out uso);
 
             var d = new JoinWorkspaceURL(context, soldir);
+            d.ShowDialog();
+        }
+
+        private void MenuItemJoinRecentWorkspaceCallback(object sender, EventArgs e)
+        {
+            var d = new JoinRecentWorkspace(context);
             d.ShowDialog();
         }
 

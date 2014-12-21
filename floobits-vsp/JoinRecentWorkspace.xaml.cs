@@ -18,30 +18,31 @@ using Floobits.Common.Interfaces;
 namespace Floobits.floobits_vsp
 {
     /// <summary>
-    /// Interaction logic for JoinWorkspaceURL.xaml
+    /// Interaction logic for JoinRecentWorkspace.xaml
     /// </summary>
-    public partial class JoinWorkspaceURL : DialogWindow
+    public partial class JoinRecentWorkspace : DialogWindow
     {
-        IContext context;
-        string path;
-
-        public JoinWorkspaceURL(IContext context, string path)
+        IContext context; 
+        public JoinRecentWorkspace(IContext context)
         {
-            InitializeComponent();
             this.context = context;
-            this.url.Text = "https://floobits.com/";
-            this.path = path;
-        }
+            PersistentJson p = PersistentJson.getInstance();
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            InitializeComponent();
+
+            list.SelectionMode = SelectionMode.Single;
+            list.ItemsSource = p.recent_workspaces;            
         }
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
-            FlooUrl floourl = new FlooUrl(url.Text);
-            context.joinWorkspace(floourl, path, false);
+            Workspace w = (Workspace)list.SelectedItem;
+            context.joinWorkspace(new FlooUrl(w.url), w.path, false);
+            this.Close();
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
             this.Close();
         }
     }

@@ -30,5 +30,10 @@ namespace Floobits.Common
                 url = url.Substring(0, url.Length - 1);
             }
         }
+
+        public override string ToString()
+        {
+            return url;
+        }
     }
 }

@@ -81,6 +81,13 @@
         </Strings>
       </Button>
       
+      <Button guid="guidfloobits_vspCmdSet" id="cmdidJoinRecentWorkspace" priority="0x0100" type="Button">
+        <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
+        <Strings>
+          <ButtonText>Join Recent Workspace</ButtonText>
+        </Strings>
+      </Button>
+      
       <Button guid="guidfloobits_vspCmdSet" id="cmdidCreatePublicWorkspace" priority="0x0100" type="Button">
         <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
         <Strings>
@@ -134,8 +141,9 @@
       <IDSymbol name="MySubMenuGroup" value="0x1021" />
       <IDSymbol name="SubMenu" value="0x0100" />
       <IDSymbol name="cmdidJoinWorkspace" value="0x0200" />
-      <IDSymbol name="cmdidCreatePublicWorkspace" value="0x0201" />
-      <IDSymbol name="cmdidCreatePrivateWorkspace" value="0x0202" />
+      <IDSymbol name="cmdidJoinRecentWorkspace" value="0x0201" />
+      <IDSymbol name="cmdidCreatePublicWorkspace" value="0x0202" />
+      <IDSymbol name="cmdidCreatePrivateWorkspace" value="0x0203" />
       <IDSymbol name="cmdidFlooTool" value="0x0101" />
     </GuidSymbol>
     
