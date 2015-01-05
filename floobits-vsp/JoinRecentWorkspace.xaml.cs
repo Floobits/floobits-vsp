@@ -31,7 +31,13 @@ namespace Floobits.floobits_vsp
             InitializeComponent();
 
             list.SelectionMode = SelectionMode.Single;
-            list.ItemsSource = p.recent_workspaces;            
+            list.ItemsSource = p.recent_workspaces;
+
+            if (p.recent_workspaces.Count > 0)
+            {
+                list.SelectedIndex = 0;
+                join.IsEnabled = true;
+            }
         }
 
         private void Join_Click(object sender, RoutedEventArgs e)
