@@ -53,12 +53,14 @@
       <Group guid="guidfloobits_vspCmdSet" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
       </Group>
-      
-      <Group guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" priority="0x0600">
+
+      <Group guid="guidfloobits_vspCmdSet" id="JoinMenuGroup" priority="0x0600">
         <Parent guid="guidfloobits_vspCmdSet" id="SubMenu"/>
       </Group>
-      
 
+      <Group guid="guidfloobits_vspCmdSet" id="CreateMenuGroup" priority="0x0600">
+        <Parent guid="guidfloobits_vspCmdSet" id="SubMenu"/>
+      </Group>
 
     </Groups>
     
@@ -75,28 +77,28 @@
           If you do not want an image next to your command, remove the Icon node /> -->
 
       <Button guid="guidfloobits_vspCmdSet" id="cmdidJoinWorkspace" priority="0x0100" type="Button">
-        <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
+        <Parent guid="guidfloobits_vspCmdSet" id="JoinMenuGroup" />
         <Strings>
           <ButtonText>Join Workspace</ButtonText>
         </Strings>
       </Button>
       
       <Button guid="guidfloobits_vspCmdSet" id="cmdidJoinRecentWorkspace" priority="0x0100" type="Button">
-        <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
+        <Parent guid="guidfloobits_vspCmdSet" id="JoinMenuGroup" />
         <Strings>
           <ButtonText>Join Recent Workspace</ButtonText>
         </Strings>
       </Button>
       
       <Button guid="guidfloobits_vspCmdSet" id="cmdidCreatePublicWorkspace" priority="0x0100" type="Button">
-        <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
+        <Parent guid="guidfloobits_vspCmdSet" id="CreateMenuGroup" />
         <Strings>
           <ButtonText>Create Public Workspace</ButtonText>
         </Strings>
       </Button>
 
       <Button guid="guidfloobits_vspCmdSet" id="cmdidCreatePrivateWorkspace" priority="0x0100" type="Button">
-        <Parent guid="guidfloobits_vspCmdSet" id="MySubMenuGroup" />
+        <Parent guid="guidfloobits_vspCmdSet" id="CreateMenuGroup" />
         <Strings>
           <ButtonText>Create Private Workspace</ButtonText>
         </Strings>
@@ -138,7 +140,8 @@
     <GuidSymbol name="guidfloobits_vspCmdSet" value="{116bd6a1-d540-4ca9-8c08-2de0a3cd7799}">
 
       <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="MySubMenuGroup" value="0x1021" />
+      <IDSymbol name="JoinMenuGroup" value="0x1021" />
+      <IDSymbol name="CreateMenuGroup" value="0x1022" />
       <IDSymbol name="SubMenu" value="0x0100" />
       <IDSymbol name="cmdidJoinWorkspace" value="0x0200" />
       <IDSymbol name="cmdidJoinRecentWorkspace" value="0x0201" />
