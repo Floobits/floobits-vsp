@@ -183,7 +183,7 @@ namespace Floobits.Common.Interfaces
 
             if (!API.workspaceExists(flooUrl, this))
             {
-                errorMessage(String.Format("The workspace {0} does not exist!", flooUrl.toString()));
+                errorMessage(String.Format("The workspace {0} does not exist!", flooUrl.ToString()));
                 return;
             }
 
@@ -194,7 +194,7 @@ namespace Floobits.Common.Interfaces
             }
 
             string title = String.Format("Really leave {0}?", handler.url.workspace);
-            string body = String.Format("Leave {0} and join {1} ?", handler.url.toString(), handler.url.toString());
+            string body = String.Format("Leave {0} and join {1} ?", handler.url.ToString(), handler.url.ToString());
 
             dialog(title, body, new RunLaterAction<bool>(delegate(bool join)
             {

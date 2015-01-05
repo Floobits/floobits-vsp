@@ -25,7 +25,7 @@ namespace Floobits.Common
             {
                 workspaces.Remove(flooUrl.workspace);
             }
-            Uri uri = new Uri(flooUrl.toString());
+            Uri uri = new Uri(flooUrl.ToString());
 
             LinkedListNode<Workspace> recent_workspace = persistentJson.recent_workspaces.First;
             while (recent_workspace != null)
@@ -53,13 +53,13 @@ namespace Floobits.Common
             Workspace workspace;
             if (!workspaces.TryGetValue(flooUrl.workspace, out workspace))
             {
-                workspace = new Workspace(flooUrl.toString(), path);
+                workspace = new Workspace(flooUrl.ToString(), path);
                 workspaces[flooUrl.workspace] = workspace;
             }
             else
             {
                 workspace.path = path;
-                workspace.url = flooUrl.toString();
+                workspace.url = flooUrl.ToString();
             }
             this.recent_workspaces.AddFirst(workspace);
             HashSet<String> seen = new HashSet<String>();

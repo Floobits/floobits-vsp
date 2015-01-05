@@ -31,7 +31,7 @@ namespace Floobits.Common.Protocol.Handlers
         public override void go()
         {
             base.go();
-            Flog.log("joining workspace %s", url);
+            Flog.log("joining workspace {0}", url);
             conn = new Connection(this);
             outbound = new OutboundRequestHandler(context, state, conn);
             inbound = new InboundRequestHandler(context, state, outbound, shouldUpload);
@@ -49,12 +49,19 @@ namespace Floobits.Common.Protocol.Handlers
         public override void on_connect()
         {
             context.editor.reset();
-            context.statusMessage(string.Format("Connecting to {0}.", url.toString()));
+            context.statusMessage(string.Format("Connecting to {0}.", url));
+
+            string username = null, api_key = null, secret = null;
+            auth.TryGetValue("username", out username);
+            auth.TryGetValue("api_key", out api_key);
+            auth.TryGetValue("secret", out secret);
+
+            conn.write(new FlooAuth(username, api_key, secret, url.owner, url.workspace));
         }
 
         protected override void _on_data(String name, JObject obj)
         {
-            Flog.debug("Calling %s", name);
+            Flog.debug("Calling {0}", name);
             try
             {
                 inbound.on_data(name, obj);
@@ -69,7 +76,7 @@ namespace Floobits.Common.Protocol.Handlers
         public override void shutdown()
         {
             base.shutdown();
-            context.statusMessage(string.Format("Leaving workspace: {0}.", url.toString()));
+            context.statusMessage(string.Format("Leaving workspace: {0}.", url.ToString()));
             state.shutdown();
         }
     }

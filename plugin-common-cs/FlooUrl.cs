@@ -15,8 +15,8 @@ namespace Floobits.Common
 
         public FlooUrl(string url)
         {
-            Uri u = new Uri(url);
-            string path = u.AbsolutePath;
+            UriBuilder u = new UriBuilder(url);
+            string path = u.Path;
             string[] parts = path.Split('/');
 
             this.host = u.Host;
@@ -32,7 +32,9 @@ namespace Floobits.Common
 
             this.secure = !this.proto.Equals("http");
 
-            if (this.port < 0)
+            // lame port specified detection
+            string uri = u.ToString();
+            if (url != uri)
             {
                 if (this.secure)
                 {
@@ -55,9 +57,10 @@ namespace Floobits.Common
             this.proto = secure ? "https" : "http";
         }
 
-        public string toString()
+        public override string ToString()
         {
             string port = "";
+            string proto;
 
             if (this.secure)
             {

@@ -65,6 +65,10 @@ namespace Floobits.Common.Protocol
                     context.errorMessage("Can not connect to floobits!");
                     context.shutdown();
                 }
+                else
+                {
+                    channelActive();
+                }
             }   catch (Exception e) {
                 Flog.warn(e.ToString());
                 reconnect();
@@ -95,7 +99,7 @@ namespace Floobits.Common.Protocol
                 return;
             }
             delay = (int)Math.Min(10000, Math.Round((float) 1.5 * delay));
-            Flog.log("Connection lost. Reconnecting in %sms", delay);
+            Flog.log("Connection lost. Reconnecting in {0}ms", delay);
             context.setTimeout(delay, delegate {
                 Flog.log("Attempting to reconnect.");
                 connect();
@@ -116,7 +120,7 @@ namespace Floobits.Common.Protocol
 
         public void channelActive()
         {
-            Flog.log("Connected to %s", channel);
+            Flog.log("Connected to {0}", channel);
             handler.on_connect();
         }
 
@@ -135,7 +139,7 @@ namespace Floobits.Common.Protocol
         }
 
         public void channelUnregistered() {
-            Flog.log("Disconnected from %s", channel);
+            Flog.log("Disconnected from {0}", channel);
             reconnect();
         }
     }

@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Floobits.Common;
+using Floobits.Utilities;
 using EnvDTE;
 using EnvDTE80;
 
@@ -51,6 +52,7 @@ namespace Floobits.floobits_vsp
         /// </summary>
         public floobits_vspPackage()
         {
+            Flog.Setup(context);
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
             Directory.CreateDirectory(Floobits.Common.Constants.baseDir);
         }

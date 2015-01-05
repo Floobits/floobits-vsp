@@ -545,10 +545,10 @@ namespace Floobits.Common
                     RoomInfoResponse ri = obj.ToObject<RoomInfoResponse>();
                     state.handleRoomInfo(ri);
 
-                    context.statusMessage(String.Format("You successfully joined {0} ", state.url.toString()));
+                    context.statusMessage(String.Format("You successfully joined {0} ", state.url.ToString()));
                     context.openChat();
 
-                    DotFloo.write(context.colabDir, state.url.toString());
+                    DotFloo.write(context.colabDir, state.url.ToString());
 
                     if (shouldUpload)
                     {
