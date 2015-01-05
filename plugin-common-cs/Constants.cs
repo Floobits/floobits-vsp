@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace Floobits.Common
 {
     public class Constants {
-        static public string baseDir = FilenameUtils.concat(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "floobits");
+        static public string baseDir = baseDirInit();
         static public string shareDir = FilenameUtils.concat(baseDir, "share");
         static public string version = "0.11";
         static public string pluginVersion = "0.01";
@@ -15,6 +15,11 @@ namespace Floobits.Common
         static public int defaultPort = 3448;
         static public Regex NEW_LINE = new Regex("\\r\\n?", RegexOptions.Compiled);
         static public int TOO_MANY_BIG_DIRS = 50;
+
+        static public string baseDirInit()
+        {
+            return FilenameUtils.concat(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "floobits");
+        }
     }
 }
 
