@@ -5,9 +5,9 @@ namespace Floobits.Common.Protocol.Json.Send
     [Serializable]
     public class PermsChange : InitialBase
     {
-        string action;
-        int user_id;
-        string[] perms;
+        public string action;
+        public int user_id;
+        public string[] perms;
 
         public PermsChange(string action, int userId, string[] perms) {
             this.action = action;

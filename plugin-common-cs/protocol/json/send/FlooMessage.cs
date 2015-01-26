@@ -6,7 +6,7 @@ namespace Floobits.Common.Protocol.Json.Send
     [Serializable]
     public class FlooMessage : Base
     {
-        string data;
+        public string data;
 
         public FlooMessage(string chatContents)
         {

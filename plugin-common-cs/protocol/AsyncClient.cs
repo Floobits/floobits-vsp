@@ -16,6 +16,8 @@ namespace Floobits.Common.Client
         public const int BufferSize = 256;
         // Receive buffer.
         public byte[] buffer = new byte[BufferSize];
+        // Stringified message Data
+        public string msg = null;
     }
 
     public class AsynchronousClient
@@ -143,7 +145,22 @@ namespace Floobits.Common.Client
                 if (bytesRead > 0)
                 {
                     // There might be more data, so store the data received so far.
-                    receiver(SysEncoding.ASCII.GetString(state.buffer, 0, bytesRead));
+                    if (state.msg == null)
+                    {
+                        state.msg = SysEncoding.ASCII.GetString(state.buffer, 0, bytesRead);
+                    }
+                    else
+                    {
+                        state.msg += SysEncoding.ASCII.GetString(state.buffer, 0, bytesRead);
+                    }
+
+                    int eol = state.msg.IndexOf('\n');
+                    if (eol != -1)
+                    {
+                        string msg = state.msg.Substring(0, eol);
+                        state.msg = state.msg.Remove(0, eol + 1);
+                        receiver(msg);
+                    }
 
                     // Get the rest of the data.
                     client.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,

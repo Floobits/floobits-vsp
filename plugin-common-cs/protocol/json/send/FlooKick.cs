@@ -6,7 +6,7 @@ namespace Floobits.Common.Protocol.Json.Send
     [Serializable]
     public class FlooKick : Base
     {
-        int user_id;
+        public int user_id;
 
         public FlooKick(int userId)
         {
