@@ -38,11 +38,11 @@ namespace Floobits.Common
             {
                 if (this.secure)
                 {
-                    this.port = 3448;
+                    this.port = Constants.defaultPort;
                 }
                 else
                 {
-                    this.port = 3148;
+                    this.port = Constants.insecurePort;
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace Floobits.Common
             this.host = host;
             this.owner = owner;
             this.workspace = workspace;
-            this.port = port < 0 ? 3448 : port;
+            this.port = port < 0 ? Constants.defaultPort : port;
             this.secure = secure;
             this.proto = secure ? "https" : "http";
         }
@@ -65,7 +65,7 @@ namespace Floobits.Common
             if (this.secure)
             {
                 proto = "https";
-                if (this.port != 3448)
+                if (this.port != Constants.defaultPort)
                 {
                     port = string.Format(":{0}", this.port);
                 }
@@ -73,7 +73,7 @@ namespace Floobits.Common
             else
             {
                 proto = "http";
-                if (this.port != 3148)
+                if (this.port != Constants.insecurePort)
                 {
                     port = string.Format(":{0}", this.port);
                 }

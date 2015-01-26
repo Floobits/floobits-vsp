@@ -13,6 +13,7 @@ namespace Floobits.Common
         static public string floobitsDomain = "floobits.com";
         static public string defaultHost = "floobits.com";
         static public int defaultPort = 3448;
+        static public int insecurePort = 3148;
         static public Regex NEW_LINE = new Regex("\\r\\n?", RegexOptions.Compiled);
         static public int TOO_MANY_BIG_DIRS = 50;
 
