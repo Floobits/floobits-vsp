@@ -17,9 +17,9 @@ namespace Floobits.floobits_vsp
     /// <summary>
     /// Interaction logic for MyControl.xaml
     /// </summary>
-    public partial class MyControl : UserControl
+    public partial class ChatControl : UserControl
     {
-        public MyControl()
+        public ChatControl()
         {
             InitializeComponent();
         }

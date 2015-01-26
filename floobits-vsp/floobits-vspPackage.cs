@@ -37,7 +37,7 @@ namespace Floobits.floobits_vsp
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     // This attribute registers a tool window exposed by this package.
-    [ProvideToolWindow(typeof(MyToolWindow))]
+    [ProvideToolWindow(typeof(FlooChatWindow))]
     [Guid(GuidList.guidfloobits_vspPkgString)]
     public sealed class floobits_vspPackage : Package
     {
@@ -67,7 +67,7 @@ namespace Floobits.floobits_vsp
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = this.FindToolWindow(typeof(MyToolWindow), 0, true);
+            ToolWindowPane window = this.FindToolWindow(typeof(FlooChatWindow), 0, true);
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException(Resources.CanNotCreateWindow);
@@ -120,7 +120,7 @@ namespace Floobits.floobits_vsp
                 menuItem = new MenuCommand(MenuItemCreatePrivateWorkspaceCallback, menuCommandID);
                 mcs.AddCommand(menuItem);
                 // Create the command for the tool window
-                CommandID toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooTool);
+                CommandID toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooChat);
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                 mcs.AddCommand( menuToolWin );
             }

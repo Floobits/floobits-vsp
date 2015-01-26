@@ -138,10 +138,10 @@
     <Compile Include="JoinWorkspaceURL.xaml.cs">
       <DependentUpon>JoinWorkspaceURL.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MyControl.xaml.cs">
-      <DependentUpon>MyControl.xaml</DependentUpon>
+    <Compile Include="ChatControl.xaml.cs">
+      <DependentUpon>ChatControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MyToolWindow.cs" />
+    <Compile Include="FlooChatWindow.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -198,7 +198,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MyControl.xaml">
+    <Page Include="ChatControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

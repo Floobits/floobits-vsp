@@ -108,7 +108,7 @@
         <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
         <Icon guid="guidImages" id="bmpPic2" />
         <Strings>
-          <ButtonText>Floo Tool Window</ButtonText>
+          <ButtonText>Floo Chat Window</ButtonText>
         </Strings>
       </Button>
 
