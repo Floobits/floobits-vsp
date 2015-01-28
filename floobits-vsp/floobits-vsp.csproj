@@ -129,6 +129,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogBuilder.xaml.cs">
+      <DependentUpon>DialogBuilder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="floobits-vspContext.cs" />
     <Compile Include="floobits-vspFactory.cs" />
     <Compile Include="floobits-vspFile.cs" />
@@ -190,6 +193,10 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DialogBuilder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JoinRecentWorkspace.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

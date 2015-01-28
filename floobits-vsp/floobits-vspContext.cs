@@ -133,7 +133,7 @@ namespace Floobits.floobits_vsp
 
         public override void dialog(string title, string body, RunLater<bool> runLater)
         {
-
+            DialogBuilder.build(title, body, runLater);
         }
 
         public override void dialogDisconnect(int tooMuch, int howMany)
