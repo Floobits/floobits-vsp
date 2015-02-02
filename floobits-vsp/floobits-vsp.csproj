@@ -161,6 +161,7 @@
     <Compile Include="ShareProject.xaml.cs">
       <DependentUpon>ShareProject.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources.resx">

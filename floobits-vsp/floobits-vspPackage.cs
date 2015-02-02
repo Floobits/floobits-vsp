@@ -42,7 +42,7 @@ namespace Floobits.floobits_vsp
     public sealed class floobits_vspPackage : Package
     {
 
-        VSPContext context = new VSPContext();
+        VSPContext context;
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -52,6 +52,7 @@ namespace Floobits.floobits_vsp
         /// </summary>
         public floobits_vspPackage()
         {
+            this.context = new VSPContext(this);
             Flog.Setup(context);
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
             Directory.CreateDirectory(Floobits.Common.Constants.baseDir);

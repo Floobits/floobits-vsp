@@ -7,6 +7,7 @@ using System.Windows;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
+using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 
 namespace Floobits.floobits_vsp
 {
@@ -22,6 +23,9 @@ namespace Floobits.floobits_vsp
     [Guid("904bddd4-b9cf-446e-99f8-e50ff6684305")]
     public class FlooChatWindow : ToolWindowPane
     {
+        // Chat Control
+        public ChatControl control = null;
+
         /// <summary>
         /// Standard constructor for the tool window.
         /// </summary>
@@ -41,7 +45,25 @@ namespace Floobits.floobits_vsp
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on 
             // the object returned by the Content property.
-            base.Content = new ChatControl();
+            this.control = new ChatControl();
+            base.Content = this.control;
         }
+
+        /// <summary>
+        /// This is called after our control has been created and sited.
+        /// This is a good place to initialize the control with data gathered
+        /// from Visual Studio services.
+        /// </summary>
+        public override void OnToolWindowCreated()
+        {
+            base.OnToolWindowCreated();
+
+            // Register to the window events
+            WindowStatus windowFrameEventsHandler = new WindowStatus(null, this.Frame as IVsWindowFrame);
+            ErrorHandler.ThrowOnFailure(((IVsWindowFrame)this.Frame).SetProperty((int)__VSFPROPID.VSFPROPID_ViewHelper, (IVsWindowFrameNotify3)windowFrameEventsHandler));
+            // Let our control have access to the window state
+            control.CurrentState = windowFrameEventsHandler;
+        }
+
     }
 }

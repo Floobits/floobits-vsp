@@ -6,11 +6,12 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             Name="FlooChatWindow" Height="306" Width="373">
+             Name="FlooChatWindow" Height="300" Width="320" >
     <Grid>
-        <TextBlock Background="White" Width="300" Margin="0,0,0,25"></TextBlock>
-        <Button Content="Send" Width="50" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-        <TextBox HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="318" Margin="55,0,0,0"  />
-        <!--<Button Content="_Click Me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>-->
+        <Border BorderThickness="1" BorderBrush="Black" Margin="5,25,5,5">
+            <TextBlock Name="ChatDialog" Background="White" Margin="1,1,1,1" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        </Border>
+        <Button Name="Send" Content="Send" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0"/>
+        <TextBox x:Name="ChatMsg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="20" Margin="65,0,0,0" />
     </Grid>
 </UserControl>

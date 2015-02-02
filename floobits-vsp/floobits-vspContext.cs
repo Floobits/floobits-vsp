@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE;
 using EnvDTE80;
 using Floobits.Common;
@@ -13,12 +14,15 @@ namespace Floobits.floobits_vsp
     public class VSPContext : IContext
     {
         private DTE2 package_dte;
+        private Package package;
         private OutputWindow ow;
         private OutputWindowPane owP;
+        private FlooChatWindow chat_window;
 
-        public VSPContext()
+        public VSPContext(Package package)
         {
             this.iFactory = new VSPFactory(this);
+            this.package = package;
         }
 
         public void Initialize(DTE2 dte)
@@ -27,6 +31,9 @@ namespace Floobits.floobits_vsp
             // Create a tool window reference for the Output window
             // and window pane.
             ow = dte.ToolWindows.OutputWindow;
+            // Create a tool window reference for the chat window
+            // and window pane.
+            chat_window = (FlooChatWindow)package.FindToolWindow(typeof(FlooChatWindow), 0, true);
             // Add a new pane to the Output window.
             owP = ow.OutputWindowPanes.Add("Floobits");
         }
@@ -83,22 +90,38 @@ namespace Floobits.floobits_vsp
 
         public override void chatStatusMessage(string message)
         {
-
+            ThreadHelper.Generic.Invoke(new Action(() =>
+                {
+                    chat_window.control.ChatDialog.ContentEnd.InsertTextInRun("STATUS: " + message);
+                    chat_window.control.ChatDialog.ContentEnd.InsertLineBreak();
+                }
+            ));
         }
 
         public override void chatErrorMessage(string message)
         {
-
+            ThreadHelper.Generic.Invoke(new Action(() =>
+                {
+                    chat_window.control.ChatDialog.ContentEnd.InsertTextInRun("ERROR: " + message);
+                    chat_window.control.ChatDialog.ContentEnd.InsertLineBreak();
+                }
+            ));
         }
 
         public override void chat(string username, string msg, DateTime messageDate)
         {
-
+            ThreadHelper.Generic.Invoke(new Action(() =>
+                {
+                    chat_window.control.ChatDialog.ContentEnd.InsertTextInRun(username + ": " + msg);
+                    chat_window.control.ChatDialog.ContentEnd.InsertLineBreak();
+                }
+            ));
         }
 
         public override void openChat()
         {
-
+            IVsWindowFrame windowFrame = (IVsWindowFrame)chat_window.Frame;
+            Microsoft.VisualStudio.ErrorHandler.ThrowOnFailure(windowFrame.Show());
         }
 
         public override void listenToEditor(EditorEventHandler editorEventHandler)
