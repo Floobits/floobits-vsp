@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
 using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
+using Floobits.Common.Interfaces;
 
 namespace Floobits.floobits_vsp
 {

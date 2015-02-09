@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Floobits.Common.Protocol.Handlers;
+using Floobits.Common.Interfaces;
 
 namespace Floobits.floobits_vsp
 {
@@ -19,9 +21,17 @@ namespace Floobits.floobits_vsp
     /// </summary>
     public partial class ChatControl : UserControl
     {
+        IContext context;
+
         public ChatControl()
         {
             InitializeComponent();
+        }
+
+        public void SetContext(IContext context)
+        {
+            // FIXME this is awkward
+            this.context = context;
         }
 
         private WindowStatus currentState = null;
@@ -55,6 +65,23 @@ namespace Floobits.floobits_vsp
             this.Width = currentState.Width;
             this.Height = currentState.Height;
             this.InvalidateVisual();
+        }
+
+        private void Send_Click(object sender, RoutedEventArgs e)
+        {
+            FlooHandler flooHandler = context.getFlooHandler();
+            if (flooHandler == null)
+            {
+                return;
+            }
+            string chatContents = this.ChatMsg.Text.Trim();
+            if (chatContents.Length < 1)
+            {
+                return;
+            }
+            flooHandler.editorEventHandler.msg(chatContents);
+            ChatMsg.Text = "";
+            context.chat(flooHandler.state.getUsername(flooHandler.state.getMyConnectionId()), chatContents, DateTime.Now);
         }
 
     }

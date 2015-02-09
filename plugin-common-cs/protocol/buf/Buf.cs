@@ -106,7 +106,7 @@ namespace Floobits.Common.Protocol.Buf
 
         public override bool isBufNull()
         {
-            return this.buf != null;
+            return this.buf == null;
         }
 
         protected IFile getVirtualFile()

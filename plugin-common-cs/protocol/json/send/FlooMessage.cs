@@ -13,6 +13,6 @@ namespace Floobits.Common.Protocol.Json.Send
             data = chatContents;
         }
 
-        protected override string getMessageName() { return "name"; }
+        protected override string getMessageName() { return "msg"; }
     }
 }

@@ -578,7 +578,7 @@ namespace Floobits.Common
             {
                 dbuf.set(res.buf, res.md5);
                 dbuf.write();
-                Flog.info("on get buffed. %s", dbuf.path);
+                Flog.info("on get buffed. {0}", dbuf.path);
             }));
         }
 
@@ -592,7 +592,7 @@ namespace Floobits.Common
             }
             catch (ArgumentException)
             {
-                Flog.log("No enum for %s", name);
+                Flog.log("No enum for {0}", name);
                 return;
             }
             switch (ev)

@@ -56,7 +56,7 @@ namespace Floobits.Common
                 context.statusMessage("You don't have permission to edit files in this workspace.  All documents will be set to read-only.");
             }
             connectionId = int.Parse(ri.user_id);
-            Flog.info("Got roominfo with userId %d", connectionId);
+            Flog.info("Got roominfo with userId {0}", connectionId);
 
         }
         public void set_buf_path(Buf buf, string newPath)
@@ -80,10 +80,11 @@ namespace Floobits.Common
             }
             return bufs[id];
         }
+
         public string getUsername(int userId)
         {
             FlooUser user;
-            if (users.TryGetValue(userId, out user))
+            if (!users.TryGetValue(userId, out user))
             {
                 return "";
             }

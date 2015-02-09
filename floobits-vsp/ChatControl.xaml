@@ -11,7 +11,7 @@
         <Border BorderThickness="1" BorderBrush="Black" Margin="5,25,5,5">
             <TextBlock Name="ChatDialog" Background="White" Margin="1,1,1,1" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         </Border>
-        <Button Name="Send" Content="Send" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0"/>
+        <Button Name="Send" Click="Send_Click" Content="Send" Width="50" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0"/>
         <TextBox x:Name="ChatMsg" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="20" Margin="65,0,0,0" />
     </Grid>
 </UserControl>

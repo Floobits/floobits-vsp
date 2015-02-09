@@ -63,7 +63,7 @@ namespace Floobits.Common
                 sw.Stop();
                 if (sw.ElapsedMilliseconds > 200)
                 {
-                    Flog.log("Spent %s in ui thread", sw.ElapsedMilliseconds);
+                    Flog.log("Spent {0} in ui thread", sw.ElapsedMilliseconds);
                 }
             }
         }

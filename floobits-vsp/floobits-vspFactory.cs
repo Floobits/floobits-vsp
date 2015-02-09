@@ -83,7 +83,12 @@ namespace Floobits.floobits_vsp
 
         public override IFile getOrCreateFile(string path)
         {
-            return null;
+            IFile fileByPath = findFileByPath(path);
+            if (fileByPath != null)
+            {
+                return fileByPath;
+            }
+            return createFile(path);
         }
 
         public override void removeHighlightsForUser(int userID)

@@ -1,4 +1,5 @@
 ﻿using System;
+using SysTasks = System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
@@ -34,6 +35,7 @@ namespace Floobits.floobits_vsp
             // Create a tool window reference for the chat window
             // and window pane.
             chat_window = (FlooChatWindow)package.FindToolWindow(typeof(FlooChatWindow), 0, true);
+            chat_window.control.SetContext(this);
             // Add a new pane to the Output window.
             owP = ow.OutputWindowPanes.Add("Floobits");
         }
@@ -90,32 +92,32 @@ namespace Floobits.floobits_vsp
 
         public override void chatStatusMessage(string message)
         {
-            ThreadHelper.Generic.Invoke(new Action(() =>
+            mainThread(delegate
                 {
                     chat_window.control.ChatDialog.ContentEnd.InsertTextInRun("STATUS: " + message);
                     chat_window.control.ChatDialog.ContentEnd.InsertLineBreak();
                 }
-            ));
+            );
         }
 
         public override void chatErrorMessage(string message)
         {
-            ThreadHelper.Generic.Invoke(new Action(() =>
+            mainThread(delegate
                 {
                     chat_window.control.ChatDialog.ContentEnd.InsertTextInRun("ERROR: " + message);
                     chat_window.control.ChatDialog.ContentEnd.InsertLineBreak();
                 }
-            ));
+            );
         }
 
         public override void chat(string username, string msg, DateTime messageDate)
         {
-            ThreadHelper.Generic.Invoke(new Action(() =>
+            mainThread(delegate
                 {
                     chat_window.control.ChatDialog.ContentEnd.InsertTextInRun(username + ": " + msg);
                     chat_window.control.ChatDialog.ContentEnd.InsertLineBreak();
                 }
-            ));
+            );
         }
 
         public override void openChat()
@@ -141,17 +143,18 @@ namespace Floobits.floobits_vsp
 
         public override void mainThread(Action runnable)
         {
-
+            /* Runs in the main UI Thread */
+            ThreadHelper.Generic.Invoke(runnable);
         }
 
         public override void readThread(Action runnable)
         {
-
+            SysTasks.Task.Run(runnable);
         }
 
         public override void writeThread(Action runnable)
         {
-
+            SysTasks.Task.Run(runnable);
         }
 
         public override void dialog(string title, string body, RunLater<bool> runLater)
