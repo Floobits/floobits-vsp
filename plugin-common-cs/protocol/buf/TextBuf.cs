@@ -68,8 +68,8 @@ namespace Floobits.Common.Protocol.Buf
             IFile virtualFile = getOrCreateFile();
             try
             {
-                byte[] bytes = new byte[buf.Length * sizeof(char)];
-                System.Buffer.BlockCopy(buf.ToCharArray(), 0, bytes, 0, bytes.Length);
+
+                byte[] bytes = Encoding.UTF8.AsSysEncoding().GetBytes(buf);
                 virtualFile.setBytes(bytes);
             }
             catch (Exception e)
