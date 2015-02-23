@@ -30,7 +30,6 @@ namespace Floobits.floobits_vsp
 
         public void SetContext(IContext context)
         {
-            // FIXME this is awkward
             this.context = context;
         }
 

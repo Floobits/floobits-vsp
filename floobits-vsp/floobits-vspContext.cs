@@ -35,7 +35,6 @@ namespace Floobits.floobits_vsp
             // Create a tool window reference for the chat window
             // and window pane.
             chat_window = (FlooChatWindow)package.FindToolWindow(typeof(FlooChatWindow), 0, true);
-            chat_window.control.SetContext(this);
             // Add a new pane to the Output window.
             owP = ow.OutputWindowPanes.Add("Floobits");
         }

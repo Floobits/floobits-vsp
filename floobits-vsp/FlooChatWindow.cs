@@ -21,7 +21,7 @@ namespace Floobits.floobits_vsp
     /// This class derives from the ToolWindowPane class provided from the MPF in order to use its 
     /// implementation of the IVsUIElementPane interface.
     /// </summary>
-    [Guid("904bddd4-b9cf-446e-99f8-e50ff6684305")]
+    [Guid(GuidList.guidFlooChatWindowPersistanceString)]
     public class FlooChatWindow : ToolWindowPane
     {
         // Chat Control
@@ -58,6 +58,9 @@ namespace Floobits.floobits_vsp
         public override void OnToolWindowCreated()
         {
             base.OnToolWindowCreated();
+
+
+            this.control.SetContext(((floobits_vspPackage)this.Package).GetContext());
 
             // Register to the window events
             WindowStatus windowFrameEventsHandler = new WindowStatus(null, this.Frame as IVsWindowFrame);
