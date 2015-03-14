@@ -10,7 +10,10 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.ComponentModelHost;
+using System.ComponentModel.Composition.Primitives;
 using Floobits.Common;
+using Floobits.Common.Interfaces;
 using Floobits.Utilities;
 using EnvDTE;
 using EnvDTE80;
@@ -41,8 +44,10 @@ namespace Floobits.floobits_vsp
     [Guid(GuidList.guidfloobits_vspPkgString)]
     public sealed class floobits_vspPackage : Package
     {
+        internal SComponentModel componentmodel = null;
 
-        VSPContext context;
+        private IContext context;
+
         /// <summary>
         /// Default constructor of the package.
         /// Inside this method you can place any initialization code that does not require 
@@ -52,10 +57,13 @@ namespace Floobits.floobits_vsp
         /// </summary>
         public floobits_vspPackage()
         {
-            this.context = new VSPContext(this);
-            Flog.Setup(context);
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
             Directory.CreateDirectory(Floobits.Common.Constants.baseDir);
+        }
+
+        public IContext GetIContext()
+        {
+            return context;
         }
 
         /// <summary>
@@ -92,8 +100,12 @@ namespace Floobits.floobits_vsp
             base.Initialize();
 
             // Initialize the Floobits Context
-            context.Initialize((DTE2)GetService(typeof(DTE)));
-
+            IComponentModel componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
+            VSPContextContainer cc = componentModel.GetService<VSPContextContainer>();
+            cc.Initialize(this, (DTE2)GetService(typeof(DTE)));
+            context = cc.GetIContext();
+            Flog.Setup(context);
+            
             // HTTP/SSL Setup
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;

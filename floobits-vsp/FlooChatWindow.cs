@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
 using ErrorHandler = Microsoft.VisualStudio.ErrorHandler;
 using Floobits.Common.Interfaces;
+using Microsoft.VisualStudio.ComponentModelHost;
 
 namespace Floobits.floobits_vsp
 {
@@ -59,8 +60,7 @@ namespace Floobits.floobits_vsp
         {
             base.OnToolWindowCreated();
 
-
-            this.control.SetContext(((floobits_vspPackage)this.Package).GetContext());
+            this.control.SetContext(((floobits_vspPackage)this.Package).GetIContext());
 
             // Register to the window events
             WindowStatus windowFrameEventsHandler = new WindowStatus(null, this.Frame as IVsWindowFrame);

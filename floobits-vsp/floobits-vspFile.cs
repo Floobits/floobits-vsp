@@ -1,11 +1,27 @@
 ﻿using System;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using Floobits.Common;
 using Floobits.Common.Interfaces;
 
 namespace Floobits.floobits_vsp
 {
+    public class ByFileName : IComparer<string>
+    {
+        CaseInsensitiveComparer caseiComp = new CaseInsensitiveComparer();
+        public int Compare(string x, string y)
+        {
+            return caseiComp.Compare(x, y);
+        }
+    }
+
     public class VSPFile : IFile
     {
+        [Import(typeof(VSPContextContainer))]
+        internal VSPContextContainer ContextContainer = null;
+
         string file_path;
 
         public VSPFile(string path)
@@ -13,16 +29,28 @@ namespace Floobits.floobits_vsp
             file_path = path;
         }
 
+        public override bool Equals(object other)
+        {
+            return this.getPath() == (other as IFile).getPath();
+        }
+
+        public override int GetHashCode()
+        {
+            return getPath().GetHashCode();
+        }
+
         public override string getPath()
         {
-            return Path.GetFullPath(file_path);
+            return FilenameUtils.normalize(file_path);
         }
 
         public override bool rename(string name)
         {
             try
             {
+                string old = getPath();
                 File.Move(file_path, name);
+                ContextContainer.GetVSPFactory().retrackFile(old, this);
                 file_path = name;
                 return true;
             }
@@ -42,6 +70,7 @@ namespace Floobits.floobits_vsp
             try
             {
                 File.Delete(file_path);
+                ContextContainer.GetVSPFactory().untrackFile(getPath());
                 return true;
             }
             catch (Exception)

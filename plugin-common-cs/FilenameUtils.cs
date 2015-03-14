@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Floobits.Common
 {
-    class FilenameUtils
+    public class FilenameUtils
     {
         public static string separatorsToUnix(string path)
         {

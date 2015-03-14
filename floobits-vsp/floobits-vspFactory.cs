@@ -1,5 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
+using Floobits.Common;
 using Floobits.Common.Interfaces;
 using Floobits.Utilities;
 
@@ -8,10 +12,14 @@ namespace Floobits.floobits_vsp
     public class VSPFactory : IFactory
     {
         VSPContext context;
+        Dictionary<string, VSPDoc> docs;
+        Dictionary<string, VSPFile> files;
 
         public VSPFactory(VSPContext context)
         {
             this.context = context;
+            docs = new Dictionary<string, VSPDoc>();
+            files = new Dictionary<string, VSPFile>();
         }
 
         public override IFile createFile(string path)
@@ -19,6 +27,7 @@ namespace Floobits.floobits_vsp
             string abspath = context.absPath(path);
             string name = Path.GetFileName(abspath);
             string parentPath = Path.GetDirectoryName(abspath);
+            VSPFile file = null;
             try
             {
                 Directory.CreateDirectory(parentPath);
@@ -27,31 +36,75 @@ namespace Floobits.floobits_vsp
             {
                 Flog.warn("Create directories error {0}", e);
                 context.errorMessage("The Floobits plugin was unable to create directories for file.");
-                return null;
             }
 
             try
             {
                 File.Create(abspath);
+                file = trackFile(path);
             }
             catch (Exception e)
             {
                 Flog.warn("Create file error {0}", e);
                 context.errorMessage(string.Format("The Floobits plugin was unable to create file: {0}.", path));
-                return null;
             }
 
-            return new VSPFile(path);
+            return file;
+        }
+
+        public VSPDoc trackDocument(IWpfTextView tv)
+        {
+            VSPDoc doc = new VSPDoc(tv);
+            docs.Add(FilenameUtils.normalize(doc.getPath()), doc);
+            return doc;
+        }
+
+        public void untrackDocument(IWpfTextView tv)
+        {
+            foreach (KeyValuePair<string, VSPDoc> pair in docs)
+            {
+                if (pair.Value == tv)
+                {
+                    untrackDocument(pair.Key);
+                    break;
+                }
+            }
+        }
+
+        public void untrackDocument(string path)
+        {
+            docs.Remove(FilenameUtils.normalize(path));
+        }
+
+        public VSPFile trackFile(string path)
+        {
+            VSPFile file = new VSPFile(path);
+            files.Add(FilenameUtils.normalize(path), file);
+            return file;
+        }
+
+        public void untrackFile(string path)
+        {
+            files.Remove(FilenameUtils.normalize(path));
+        }
+
+        public void retrackFile(string oldpath, VSPFile file)
+        {
+            files.Remove(FilenameUtils.normalize(oldpath));
+            files.Remove(FilenameUtils.normalize(file.getPath()));
+            files.Add(FilenameUtils.normalize(file.getPath()), file);
         }
 
         public override IDoc getDocument(IFile file)
         {
-            return null;
+            return getDocument(file.getPath());
         }
 
         public override IDoc getDocument(string relPath)
         {
-            return null;
+            VSPDoc d = null;
+            docs.TryGetValue(FilenameUtils.normalize(relPath), out d);
+            return d;
         }
 
         public override IFile createDirectories(string path)
@@ -67,16 +120,19 @@ namespace Floobits.floobits_vsp
                 context.errorMessage(string.Format("The Floobits plugin was unable to create directories: {0}.", path));
                 return null;
             }
-            return new VSPFile(path);
+            return trackFile(path);
         }
 
         public override IFile findFileByPath(string path)
         {
-            string abspath = Path.GetFullPath(path);
+            string abspath = FilenameUtils.normalize(path);
             VSPFile file = null;
-            if (File.Exists(abspath) || Directory.Exists(abspath))
+            if (!files.TryGetValue(abspath, out file))
             {
-                file = new VSPFile(path);
+                if (File.Exists(abspath) || Directory.Exists(abspath))
+                {
+                    file = trackFile(path);
+                }
             }
             return file;
         }

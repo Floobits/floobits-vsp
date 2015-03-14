@@ -1,6 +1,7 @@
 ﻿using System;
 using SysTasks = System.Threading.Tasks;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -12,7 +13,16 @@ using Floobits.Common.Interfaces;
 
 namespace Floobits.floobits_vsp
 {
-    public class VSPContext : IContext
+    public interface VSPContextContainer
+    {
+        IContext GetIContext();
+        VSPContext GetVSPContext();
+        VSPFactory GetVSPFactory();
+        void Initialize(Package package, DTE2 dte);
+    }
+
+    [Export(typeof(VSPContextContainer))]
+    public class VSPContext : IContext, VSPContextContainer
     {
         private DTE2 package_dte;
         private Package package;
@@ -20,14 +30,14 @@ namespace Floobits.floobits_vsp
         private OutputWindowPane owP;
         private FlooChatWindow chat_window;
 
-        public VSPContext(Package package)
+        public VSPContext()
         {
             this.iFactory = new VSPFactory(this);
-            this.package = package;
         }
 
-        public void Initialize(DTE2 dte)
+        public void Initialize(Package package, DTE2 dte)
         {
+            this.package = package;
             package_dte = dte;
             // Create a tool window reference for the Output window
             // and window pane.
@@ -37,6 +47,21 @@ namespace Floobits.floobits_vsp
             chat_window = (FlooChatWindow)package.FindToolWindow(typeof(FlooChatWindow), 0, true);
             // Add a new pane to the Output window.
             owP = ow.OutputWindowPanes.Add("Floobits");
+        }
+
+        public IContext GetIContext()
+        {
+            return this;
+        }
+
+        public VSPContext GetVSPContext()
+        {
+            return this;
+        }
+
+        public VSPFactory GetVSPFactory()
+        {
+            return this.iFactory as VSPFactory;
         }
 
         public void outputWindowMessage(string message)
