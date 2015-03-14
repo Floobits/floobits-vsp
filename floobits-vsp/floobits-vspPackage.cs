@@ -37,16 +37,20 @@ namespace Floobits.floobits_vsp
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
+    // Auto Load 
+    [ProvideAutoLoad(UIContextGuids80.NoSolution)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     // This attribute is needed to let the shell know that this package exposes some menus.
     [ProvideMenuResource("Menus.ctmenu", 1)]
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(FlooChatWindow))]
     [Guid(GuidList.guidfloobits_vspPkgString)]
-    public sealed class floobits_vspPackage : Package
+    public sealed class floobits_vspPackage : Package, IVsShellPropertyEvents
     {
         internal SComponentModel componentmodel = null;
 
-        private IContext context;
+        private VSPContext context;
+        private uint propChangeCookie;
 
         /// <summary>
         /// Default constructor of the package.
@@ -99,12 +103,16 @@ namespace Floobits.floobits_vsp
             Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
-            // Initialize the Floobits Context
+            // Set the Floobits Context
             IComponentModel componentModel = (IComponentModel)Package.GetGlobalService(typeof(SComponentModel));
             VSPContextContainer cc = componentModel.GetService<VSPContextContainer>();
-            cc.Initialize(this, (DTE2)GetService(typeof(DTE)));
-            context = cc.GetIContext();
+            context = cc.GetVSPContext();
             Flog.Setup(context);
+
+            //Init the context when the shell is ready
+            IVsShell vsShell = (IVsShell)GetService(typeof(SVsShell));
+            vsShell.AdviseShellPropertyChanges(this, out propChangeCookie);
+
             
             // HTTP/SSL Setup
             ServicePointManager.Expect100Continue = true;
@@ -137,6 +145,22 @@ namespace Floobits.floobits_vsp
                 MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                 mcs.AddCommand( menuToolWin );
             }
+        }
+
+
+        // when shell is fully initialized, set up the context to to know about the package.
+        public int OnShellPropertyChange(int propid, object var)
+        {
+            if (propid == (int)__VSSPROPID4.VSSPROPID_ShellInitialized && Convert.ToBoolean(var) == true)
+            {
+                // stop listening for shell property changes
+                IVsShell vsShell = (IVsShell)GetService(typeof(SVsShell));
+                vsShell.UnadviseShellPropertyChanges(propChangeCookie);
+                propChangeCookie = 0;
+
+                context.Initialize(this, (DTE2)GetService(typeof(DTE)));
+            }
+            return VSConstants.S_OK;
         }
         #endregion
 
