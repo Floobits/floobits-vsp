@@ -42,7 +42,11 @@ namespace Floobits.floobits_vsp
 
         void TextBufferChanged(object sender, TextContentChangedEventArgs e)
         {
-            context.statusMessage(e.Changes.ToString());
+            foreach (ITextChange change in e.Changes)
+            {
+                context.statusMessage(string.Format("Old: {0}", change.OldText));
+                context.statusMessage("New: " + change.NewText);
+            }
         }
     }
 }

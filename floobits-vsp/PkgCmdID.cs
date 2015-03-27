@@ -11,6 +11,6 @@ namespace Floobits.floobits_vsp
         public const uint cmdidCreatePublicWorkspace = 0x202;
         public const uint cmdidCreatePrivateWorkspace = 0x203;
         public const uint cmdidFlooChat = 0x101;
-
+        public const uint cmdidFlooTree = 0x102;
     };
 }

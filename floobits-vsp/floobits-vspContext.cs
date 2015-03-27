@@ -29,6 +29,7 @@ namespace Floobits.floobits_vsp
         private OutputWindow ow;
         private OutputWindowPane owP;
         private FlooChatWindow chat_window;
+        private FlooTreeWindow tree_window;
 
         public VSPContext()
         {
@@ -42,11 +43,13 @@ namespace Floobits.floobits_vsp
             // Create a tool window reference for the Output window
             // and window pane.
             ow = dte.ToolWindows.OutputWindow;
-            // Create a tool window reference for the chat window
-            // and window pane.
+            // Create a tool window reference for the chat and tree window
             chat_window = (FlooChatWindow)package.FindToolWindow(typeof(FlooChatWindow), 0, true);
+            tree_window = (FlooTreeWindow)package.FindToolWindow(typeof(FlooTreeWindow), 0, true);
             // Add a new pane to the Output window.
             owP = ow.OutputWindowPanes.Add("Floobits");
+
+            tree_window.control.TreeView.Items.Add("Horse");
         }
 
         public IContext GetIContext()
@@ -152,7 +155,8 @@ namespace Floobits.floobits_vsp
 
         public override void listenToEditor(EditorEventHandler editorEventHandler)
         {
-
+            // Setup Floobits Tree Window
+            tree_window.control.WatchPath(colabDir);
         }
 
         public override void setUsers(Dictionary<int, FlooUser> users)

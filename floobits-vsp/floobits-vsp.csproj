@@ -144,14 +144,18 @@
     <Compile Include="floobits-vspFactory.cs" />
     <Compile Include="floobits-vspFile.cs" />
     <Compile Include="floobits-vspListener.cs" />
+    <Compile Include="FlooTreeControl.xaml.cs">
+      <DependentUpon>FlooTreeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FlooTreeWindow.cs" />
     <Compile Include="JoinRecentWorkspace.xaml.cs">
       <DependentUpon>JoinRecentWorkspace.xaml</DependentUpon>
     </Compile>
     <Compile Include="JoinWorkspaceURL.xaml.cs">
       <DependentUpon>JoinWorkspaceURL.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChatControl.xaml.cs">
-      <DependentUpon>ChatControl.xaml</DependentUpon>
+    <Compile Include="FlooChatControl.xaml.cs">
+      <DependentUpon>FlooChatControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FlooChatWindow.cs" />
     <Compile Include="Guids.cs" />
@@ -207,6 +211,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FlooTreeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JoinRecentWorkspace.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -215,7 +223,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ChatControl.xaml">
+    <Page Include="FlooChatControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

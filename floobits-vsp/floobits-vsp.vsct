@@ -62,6 +62,10 @@
         <Parent guid="guidfloobits_vspCmdSet" id="SubMenu"/>
       </Group>
 
+      <Group guid="guidfloobits_vspCmdSet" id="WindowMenuGroup" priority="0x0600">
+        <Parent guid="guidfloobits_vspCmdSet" id="SubMenu"/>
+      </Group>
+
     </Groups>
     
     <!--Buttons section. -->
@@ -104,14 +108,21 @@
         </Strings>
       </Button>
 
-      <Button guid="guidfloobits_vspCmdSet" id="cmdidFlooTool" priority="0x0100" type="Button">
-        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
+      <Button guid="guidfloobits_vspCmdSet" id="cmdidFlooChat" priority="0x0100" type="Button">
+        <Parent guid="guidfloobits_vspCmdSet" id="WindowMenuGroup" />
         <Icon guid="guidImages" id="bmpPic2" />
         <Strings>
           <ButtonText>Floo Chat Window</ButtonText>
         </Strings>
       </Button>
 
+      <Button guid="guidfloobits_vspCmdSet" id="cmdidFlooTree" priority="0x0100" type="Button">
+        <Parent guid="guidfloobits_vspCmdSet" id="WindowMenuGroup" />
+        <Icon guid="guidImages" id="bmpPic2" />
+        <Strings>
+          <ButtonText>Floo Tree Window</ButtonText>
+        </Strings>
+      </Button>
 
     </Buttons>
    
@@ -122,7 +133,7 @@
             bitmap strip containing the bitmaps and then there are the numeric ids of the elements used 
             inside a button definition. An important aspect of this declaration is that the element id 
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
-      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows"/>
+      <Bitmap guid="guidImages" href="Resources\Images.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
       
     </Bitmaps>
  
@@ -142,12 +153,14 @@
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="JoinMenuGroup" value="0x1021" />
       <IDSymbol name="CreateMenuGroup" value="0x1022" />
+      <IDSymbol name="WindowMenuGroup" value="0x1023" />
       <IDSymbol name="SubMenu" value="0x0100" />
       <IDSymbol name="cmdidJoinWorkspace" value="0x0200" />
       <IDSymbol name="cmdidJoinRecentWorkspace" value="0x0201" />
       <IDSymbol name="cmdidCreatePublicWorkspace" value="0x0202" />
       <IDSymbol name="cmdidCreatePrivateWorkspace" value="0x0203" />
-      <IDSymbol name="cmdidFlooTool" value="0x0101" />
+      <IDSymbol name="cmdidFlooChat" value="0x0101" />
+      <IDSymbol name="cmdidFlooTree" value="0x0102" />
     </GuidSymbol>
     
     

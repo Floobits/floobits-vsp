@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Windows;
+using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Shell;
@@ -22,20 +23,20 @@ namespace Floobits.floobits_vsp
     /// This class derives from the ToolWindowPane class provided from the MPF in order to use its 
     /// implementation of the IVsUIElementPane interface.
     /// </summary>
-    [Guid(GuidList.guidFlooChatWindowPersistanceString)]
-    public class FlooChatWindow : ToolWindowPane
+    [Guid(GuidList.guidFlooTreeWindowPersistanceString)]
+    public class FlooTreeWindow : ToolWindowPane
     {
-        // Chat Control
-        public ChatControl control = null;
+        // Floo Tree Control
+        public FlooTreeControl control = null;
 
         /// <summary>
         /// Standard constructor for the tool window.
         /// </summary>
-        public FlooChatWindow() :
+        public FlooTreeWindow() :
             base(null)
         {
             // Set the window title reading it from the resources.
-            this.Caption = Resources.ChatWindowTitle;
+            this.Caption = Resources.TreeWindowTitle;
             // Set the image that will appear on the tab of the window frame
             // when docked with an other window
             // The resource ID correspond to the one defined in the resx file
@@ -47,7 +48,7 @@ namespace Floobits.floobits_vsp
             // This is the user control hosted by the tool window; Note that, even if this class implements IDisposable,
             // we are not calling Dispose on this object. This is because ToolWindowPane calls Dispose on 
             // the object returned by the Content property.
-            this.control = new ChatControl();
+            this.control = new FlooTreeControl();
             base.Content = this.control;
         }
 
@@ -66,6 +67,5 @@ namespace Floobits.floobits_vsp
             // Let our control have access to the window state
             control.CurrentState = windowFrameEventsHandler;
         }
-
     }
 }

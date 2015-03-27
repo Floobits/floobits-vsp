@@ -1,4 +1,5 @@
 ﻿using System;
+using IO = System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using Forms = System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -23,14 +25,28 @@ namespace Floobits.floobits_vsp
     public partial class JoinWorkspaceURL : DialogWindow
     {
         IContext context;
-        string path;
 
         public JoinWorkspaceURL(IContext context, string path)
         {
             InitializeComponent();
             this.context = context;
             this.url.Text = "https://floobits.com/";
-            this.path = path;
+            SetPath(path);
+        }
+
+        private void SetPath(string path)
+        {
+            if (IO.Directory.Exists(path))
+            {
+                this.PathLabel.Text = FilenameUtils.normalize(path);
+            }
+            else
+            {
+                if (IO.File.Exists(path))
+                {
+                    this.PathLabel.Text = FilenameUtils.normalize(IO.Path.GetDirectoryName(path));
+                }
+            }
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -41,8 +57,18 @@ namespace Floobits.floobits_vsp
         private void Join_Click(object sender, RoutedEventArgs e)
         {
             FlooUrl floourl = new FlooUrl(url.Text);
-            context.joinWorkspace(floourl, path, false);
+            context.joinWorkspace(floourl, PathLabel.Text, false);
             this.Close();
+        }
+
+        private void PathDialog_Click(object sender, RoutedEventArgs e)
+        {
+            Forms.FolderBrowserDialog dialog = new Forms.FolderBrowserDialog();
+            Forms.DialogResult result = dialog.ShowDialog();
+            if (result == Forms.DialogResult.OK)
+            {
+                SetPath(dialog.SelectedPath);
+            }
         }
     }
 }

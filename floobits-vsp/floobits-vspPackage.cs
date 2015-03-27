@@ -44,6 +44,7 @@ namespace Floobits.floobits_vsp
     [ProvideMenuResource("Menus.ctmenu", 1)]
     // This attribute registers a tool window exposed by this package.
     [ProvideToolWindow(typeof(FlooChatWindow))]
+    [ProvideToolWindow(typeof(FlooTreeWindow))]
     [Guid(GuidList.guidfloobits_vspPkgString)]
     public sealed class floobits_vspPackage : Package, IVsShellPropertyEvents
     {
@@ -71,7 +72,7 @@ namespace Floobits.floobits_vsp
         }
 
         /// <summary>
-        /// This function is called when the user clicks the menu item that shows the 
+        /// This function is called when the user clicks the menu item that shows the
         /// tool window. See the Initialize method to see how the menu item is associated to 
         /// this function using the OleMenuCommandService service and the MenuCommand class.
         /// </summary>
@@ -80,7 +81,22 @@ namespace Floobits.floobits_vsp
             // Get the instance number 0 of this tool window. This window is single instance so this instance
             // is actually the only one.
             // The last flag is set to true so that if the tool window does not exists it will be created.
-            ToolWindowPane window = this.FindToolWindow(typeof(FlooChatWindow), 0, true);
+            MenuCommand cmd = sender as MenuCommand;
+            ToolWindowPane window = null;
+            if (cmd != null)
+            {
+                switch ((uint)cmd.CommandID.ID)
+                {
+                    case PkgCmdIDList.cmdidFlooChat:
+                        window = this.FindToolWindow(typeof(FlooChatWindow), 0, true);
+                        break;
+                    case PkgCmdIDList.cmdidFlooTree:
+                        window = this.FindToolWindow(typeof(FlooTreeWindow), 0, true);
+                        break;
+                    default:
+                        break;
+                }
+            }
             if ((null == window) || (null == window.Frame))
             {
                 throw new NotSupportedException(Resources.CanNotCreateWindow);
@@ -140,10 +156,17 @@ namespace Floobits.floobits_vsp
                 menuCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidCreatePrivateWorkspace);
                 menuItem = new MenuCommand(MenuItemCreatePrivateWorkspaceCallback, menuCommandID);
                 mcs.AddCommand(menuItem);
-                // Create the command for the tool window
-                CommandID toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooChat);
-                MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
-                mcs.AddCommand( menuToolWin );
+
+                CommandID toolwndCommandID;
+                MenuCommand menuToolWin;
+                // Create the command for the chat window
+                toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooChat);
+                menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
+                mcs.AddCommand(menuToolWin);
+                // Create the command for the tree window
+                toolwndCommandID = new CommandID(GuidList.guidfloobits_vspCmdSet, (int)PkgCmdIDList.cmdidFlooTree);
+                menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
+                mcs.AddCommand(menuToolWin);
             }
         }
 
@@ -192,7 +215,11 @@ namespace Floobits.floobits_vsp
 
         private void MenuItemCreatePrivateWorkspaceCallback(object sender, EventArgs e)
         {
-            context.shareProject(true, "horsey");
+            // get current solution
+            IVsSolution solution = (IVsSolution)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(IVsSolution));
+            string soldir, solfile, uso;
+            int ret = solution.GetSolutionInfo(out soldir, out solfile, out uso);
+            context.shareProject(true, soldir);
         }
     }
 }

@@ -6,7 +6,7 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
-             Name="FlooChatWindow" Height="300" Width="320" >
+             Name="FlooChatWindow" d:DesignHeight="300" d:DesignWidth="320" >
     <Grid>
         <Border BorderThickness="1" BorderBrush="Black" Margin="5,25,5,5">
             <TextBlock Name="ChatDialog" Background="White" Margin="1,1,1,1" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto"/>

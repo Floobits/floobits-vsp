@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Floobits.Common.Protocol.Handlers;
 using Floobits.Common.Interfaces;
+using System.ComponentModel.Composition;
 
 namespace Floobits.floobits_vsp
 {
@@ -21,16 +22,12 @@ namespace Floobits.floobits_vsp
     /// </summary>
     public partial class ChatControl : UserControl
     {
-        IContext context;
+        [Import(typeof(VSPContextContainer))]
+        internal VSPContextContainer ContextContainer = null;
 
         public ChatControl()
         {
             InitializeComponent();
-        }
-
-        public void SetContext(IContext context)
-        {
-            this.context = context;
         }
 
         private WindowStatus currentState = null;
@@ -68,6 +65,7 @@ namespace Floobits.floobits_vsp
 
         private void Send_Click(object sender, RoutedEventArgs e)
         {
+            VSPContext context = ContextContainer.GetVSPContext();
             FlooHandler flooHandler = context.getFlooHandler();
             if (flooHandler == null)
             {

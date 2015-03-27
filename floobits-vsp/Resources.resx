@@ -123,4 +123,7 @@
   <data name="ChatWindowTitle" xml:space="preserve">
     <value>Floo Chat Window</value>
   </data>
+  <data name="TreeWindowTitle" xml:space="preserve">
+    <value>Floo Tree Window</value>
+  </data>
 </root>
