@@ -66,7 +66,7 @@ namespace Floobits.floobits_vsp
             Directory.CreateDirectory(Floobits.Common.Constants.baseDir);
         }
 
-        public IContext GetIContext()
+        public VSPContext GetVSPContext()
         {
             return context;
         }

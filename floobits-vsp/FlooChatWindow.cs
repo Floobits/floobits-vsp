@@ -59,6 +59,7 @@ namespace Floobits.floobits_vsp
         public override void OnToolWindowCreated()
         {
             base.OnToolWindowCreated();
+            control.SetContext((this.Package as floobits_vspPackage).GetVSPContext());
 
             // Register to the window events
             WindowStatus windowFrameEventsHandler = new WindowStatus(null, this.Frame as IVsWindowFrame);

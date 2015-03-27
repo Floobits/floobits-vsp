@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.ComponentModel.Composition;
 using Floobits.Common;
 using Floobits.Common.Interfaces;
 
@@ -25,15 +24,17 @@ namespace Floobits.floobits_vsp
     /// </summary>
     public partial class FlooTreeControl : UserControl
     {
-        [Import(typeof(VSPContextContainer))]
-        internal VSPContextContainer ContextContainer = null;
-
-        CancellationTokenSource cts;
+        VSPContext context;                
         IO.FileSystemWatcher fw;
 
         public FlooTreeControl()
         {
             InitializeComponent();
+        }
+
+        public void SetContext(VSPContext context)
+        {
+            this.context = context;
         }
 
         private WindowStatus currentState = null;
@@ -84,19 +85,58 @@ namespace Floobits.floobits_vsp
             Label.Visibility = Visibility.Hidden;
             TreeView.Visibility = Visibility.Visible;
 
-            // Create the token source.
-            //cts = new CancellationTokenSource();
-            //fw = new IO.FileSystemWatcher(FilenameUtils.normalize(path));
+            fw = new IO.FileSystemWatcher(FilenameUtils.normalize(path));
+            fw.Created += new IO.FileSystemEventHandler(OnChanged);
+            fw.Deleted += new IO.FileSystemEventHandler(OnChanged);
+            fw.Renamed += new IO.RenamedEventHandler(OnRenamed);
+            fw.EnableRaisingEvents = true;
 
             TreeView.Items.Clear();
             WalkDirectoryTree(TreeView.Items, new System.IO.DirectoryInfo(path));            
         }
 
+        // Define the event handlers. 
+        private void OnChanged(object source, IO.FileSystemEventArgs e)
+        {
+            string relpath = e.FullPath.Replace(fw.Path, "");
+
+            // Specify what is done when a file is created or deleted
+            if (e.ChangeType == IO.WatcherChangeTypes.Created)
+            {
+                AddPath(relpath);
+            }
+            else if (e.ChangeType == IO.WatcherChangeTypes.Deleted)
+            {
+                DelPath(relpath);
+            }
+        }
+
+        private void OnRenamed(object source, IO.RenamedEventArgs e)
+        {
+            // Specify what is done when a file is renamed.
+
+        }
+
         public void StopWatching()
         {
+            fw.EnableRaisingEvents = false;
+            fw = null;
+            
+            TreeView.Items.Clear();
             TreeView.Visibility = Visibility.Hidden;
             Label.Visibility = Visibility.Visible;
+        }
 
+        private void AddPath(string relpath)
+        {
+            string[] parts = relpath.Split(IO.Path.DirectorySeparatorChar);
+            context.outputWindowMessage(String.Format("adding {0}", relpath));
+        }
+
+        private void DelPath(string relpath)
+        {
+            string[] parts = relpath.Split(IO.Path.DirectorySeparatorChar);
+            context.outputWindowMessage(String.Format("deleting {0}", relpath));
         }
 
         private void WalkDirectoryTree(ItemCollection items, IO.DirectoryInfo root)
