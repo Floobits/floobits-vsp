@@ -89,6 +89,7 @@ namespace Floobits.floobits_vsp
             fw.Created += new IO.FileSystemEventHandler(OnChanged);
             fw.Deleted += new IO.FileSystemEventHandler(OnChanged);
             fw.Renamed += new IO.RenamedEventHandler(OnRenamed);
+            fw.IncludeSubdirectories = true;
             fw.EnableRaisingEvents = true;
 
             TreeView.Items.Clear();
@@ -98,23 +99,30 @@ namespace Floobits.floobits_vsp
         // Define the event handlers. 
         private void OnChanged(object source, IO.FileSystemEventArgs e)
         {
-            string relpath = e.FullPath.Replace(fw.Path, "");
-
-            // Specify what is done when a file is created or deleted
-            if (e.ChangeType == IO.WatcherChangeTypes.Created)
+            context.mainThread(delegate
             {
-                AddPath(relpath);
-            }
-            else if (e.ChangeType == IO.WatcherChangeTypes.Deleted)
-            {
-                DelPath(relpath);
-            }
+                // Specify what is done when a file is created or deleted
+                if (e.ChangeType == IO.WatcherChangeTypes.Created)
+                {
+                    AddPath(e.FullPath);
+                }
+                else if (e.ChangeType == IO.WatcherChangeTypes.Deleted)
+                {
+                    DelPath(e.FullPath);
+                }
+            });
         }
 
         private void OnRenamed(object source, IO.RenamedEventArgs e)
         {
-            // Specify what is done when a file is renamed.
-
+            context.mainThread(delegate
+            {
+                if (e.ChangeType == IO.WatcherChangeTypes.Renamed)
+                {
+                    // Specify what is done when a file is renamed.
+                    MovePath(e.OldFullPath, e.FullPath);
+                }
+            });
         }
 
         public void StopWatching()
@@ -127,16 +135,95 @@ namespace Floobits.floobits_vsp
             Label.Visibility = Visibility.Visible;
         }
 
-        private void AddPath(string relpath)
+        TreeViewItem FindItem(ItemCollection items, string header)
         {
-            string[] parts = relpath.Split(IO.Path.DirectorySeparatorChar);
-            context.outputWindowMessage(String.Format("adding {0}", relpath));
+            foreach (TreeViewItem item in items)
+            {
+                if (String.Compare(item.Header as String, header, true) == 0)
+                {
+                    return item;
+                }
+            }
+            return null;
         }
 
-        private void DelPath(string relpath)
+        private void AddPath(string path)
         {
+            string relpath = path.Replace(fw.Path, "");
             string[] parts = relpath.Split(IO.Path.DirectorySeparatorChar);
-            context.outputWindowMessage(String.Format("deleting {0}", relpath));
+            ItemCollection items = TreeView.Items;
+
+            for(int i = 0; i < parts.Length; i++)
+            {
+                TreeViewItem item = FindItem(items, parts[i]);
+                if (i == parts.Length - 1)
+                {
+                    if (item == null)
+                    {
+                        // Add the new item
+                        item = new TreeViewItem();
+                        item.Header = parts[i];
+                        items.Add(item);
+                    }
+                    else
+                    {
+                        context.errorMessage("Floo Tree item already exists on add");
+                    }
+                }
+                else
+                {
+                    if (item == null)
+                    {
+                        context.errorMessage("Floo Tree Inconsistent, partial path incorrect");
+                        return;
+                    }
+
+                    items = item.Items;
+                }
+            }
+        }
+
+        private void DelPath(string path)
+        {
+            string relpath = path.Replace(fw.Path, "");
+            string[] parts = relpath.Split(IO.Path.DirectorySeparatorChar);
+            ItemCollection items = TreeView.Items;
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                TreeViewItem item = FindItem(items, parts[i]);
+                if (i == parts.Length - 1)
+                {
+                    if (item == null)
+                    {
+                        context.errorMessage("Floo Tree item already deleted");
+                    }
+                    else
+                    {
+                        // Delete item 
+                        items.Remove(item);
+                    }
+                }
+                else
+                {
+                    if (item == null)
+                    {
+                        context.errorMessage("Floo Tree subtree already deleted");
+                        return;
+                    }
+
+                    items = item.Items;
+                }
+            }
+        }
+
+        private void MovePath(string oldpath, string newpath)
+        {
+            string oldrelpath = oldpath.Replace(fw.Path, "");
+            string[] oldparts = oldrelpath.Split(IO.Path.DirectorySeparatorChar);
+            string newrelpath = newpath.Replace(fw.Path, "");
+            string[] newparts = newrelpath.Split(IO.Path.DirectorySeparatorChar);
+            context.errorMessage(string.Format("Floo Tree move {0} -> {1}", oldrelpath, newrelpath));
         }
 
         private void WalkDirectoryTree(ItemCollection items, IO.DirectoryInfo root)
@@ -156,12 +243,12 @@ namespace Floobits.floobits_vsp
                 // This code just writes out the message and continues to recurse. 
                 // You may decide to do something different here. For example, you 
                 // can try to elevate your privileges and access the file again.
-                //log.Add(e.Message);
+                context.errorMessage(e.Message);
             }
 
             catch (IO.DirectoryNotFoundException e)
             {
-                //Console.WriteLine(e.Message);
+                context.errorMessage(e.Message);
             }
 
             if (files != null)
@@ -172,7 +259,9 @@ namespace Floobits.floobits_vsp
                     // want to open, delete or modify the file, then 
                     // a try-catch block is required here to handle the case 
                     // where the file has been deleted since the call to TraverseTree().
-                    items.Add(IO.Path.GetFileName(fi.FullName));
+                    TreeViewItem item = new TreeViewItem();
+                    item.Header = IO.Path.GetFileName(fi.FullName);
+                    items.Add(item);
                 }
 
                 // Now find all the subdirectories under this directory.
