@@ -237,4 +237,14 @@ namespace Floobits.Common
         }
 #endif
     }
+
+
+    // Porting Simplicity
+    public static partial class JavaExtensions
+    {
+        public static string JavaSubstring(this string s, int start, int end)
+        {
+            return s.Substring(start, end - start);
+        }
+    }
 }

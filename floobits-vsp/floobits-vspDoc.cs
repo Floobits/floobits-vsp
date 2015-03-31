@@ -46,7 +46,7 @@ namespace Floobits.floobits_vsp
 
         override public string getText()
         {
-            return textBuffer.CurrentSnapshot.ToString();
+            return textBuffer.CurrentSnapshot.GetText();
         }
 
         override public void setText(string text)

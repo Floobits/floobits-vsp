@@ -38,7 +38,7 @@ namespace Floobits.Common.Dmp
                     // patch_splitMax will only provide an oversized pattern in the case of
                     // a monster delete.
                     start_loc = match_main(text,
-                            text1.Substring(0, this.Match_MaxBits), expected_loc);
+                            text1.JavaSubstring(0, this.Match_MaxBits), expected_loc);
                     if (start_loc != -1) {
                         end_loc = match_main(text,
                                 text1.Substring(text1.Length - this.Match_MaxBits),
@@ -62,16 +62,16 @@ namespace Floobits.Common.Dmp
                     delta = start_loc - expected_loc;
                     String text2;
                     if (end_loc == -1) {
-                        text2 = text.Substring(start_loc,
+                        text2 = text.JavaSubstring(start_loc,
                                 Math.Min(start_loc + text1.Length, text.Length));
                     } else {
-                        text2 = text.Substring(start_loc,
+                        text2 = text.JavaSubstring(start_loc,
                                 Math.Min(end_loc + this.Match_MaxBits, text.Length));
                     }
                     if (text1.Equals(text2)) {
                         // Perfect match, just shove the replacement text in.
                         String replacement_str = diff_text2(aPatch.diffs);
-                        text = text.Substring(0, start_loc) + replacement_str
+                        text = text.JavaSubstring(0, start_loc) + replacement_str
                                 + text.Substring(start_loc + text1.Length);
                         position = new FlooPatchPosition(start_loc, text1.Length, replacement_str);
                     } else {
@@ -93,13 +93,13 @@ namespace Floobits.Common.Dmp
                                     int index2 = diff_xIndex(diffs, index1);
                                     if (aDiff.operation == Operation.INSERT) {
                                         // Insertion
-                                        text = text.Substring(0, start_loc + index2) + aDiff.text
+                                        text = text.JavaSubstring(0, start_loc + index2) + aDiff.text
                                                 + text.Substring(start_loc + index2);
                                         inserted_text += aDiff.text;
                                     } else if (aDiff.operation == Operation.DELETE) {
                                         // Deletion
                                         int diff_index = diff_xIndex(diffs, index1 + aDiff.text.Length);
-                                        text = text.Substring(0, start_loc + index2)
+                                        text = text.JavaSubstring(0, start_loc + index2)
                                                 + text.Substring(start_loc + diff_index);
                                         delete_len += (diff_index - index2);
                                     }
@@ -126,14 +126,14 @@ namespace Floobits.Common.Dmp
 
                     int start = position.text.Length - too_close;
                     start = start < 0 ? 0 : start;
-                    position.text = position.text.Substring(0, start);
+                    position.text = position.text.JavaSubstring(0, start);
                 }
                 positions[x] = position;
                 x++;
 
             }
             // Strip the padding off.
-            text = text.Substring(nullPadding.Length, text.Length
+            text = text.JavaSubstring(nullPadding.Length, text.Length
                     - nullPadding.Length);
             return new Object[]{text, results, positions};
         }
