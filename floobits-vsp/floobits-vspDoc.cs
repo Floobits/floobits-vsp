@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using Floobits.Common;
 using Floobits.Common.Dmp;
 using Floobits.Common.Interfaces;
@@ -12,18 +11,17 @@ namespace Floobits.floobits_vsp
 {
     public class VSPDoc : IDoc
     {
-        [Import(typeof(VSPContextContainer))]
-        internal VSPContextContainer ContextContainer = null;
-
         IWpfTextView textView;
         ITextBuffer textBuffer;
         ITextDocument document;
+        VSPContext context;
 
-        public VSPDoc(IWpfTextView textView)
+        public VSPDoc(IWpfTextView textView, VSPContext context)
         {
             this.textView = textView;
             this.textBuffer = textView.TextBuffer;
             this.document = textBuffer.Properties.GetProperty<ITextDocument>(typeof(ITextDocument));
+            this.context = context;
         }
 
         public string getPath()
@@ -53,7 +51,10 @@ namespace Floobits.floobits_vsp
 
         override public void setText(string text)
         {
-            textBuffer.Replace(new Span(0, textBuffer.CurrentSnapshot.Length), text);
+            context.mainThread(delegate
+            {
+                textBuffer.Replace(new Span(0, textBuffer.CurrentSnapshot.Length), text);
+            });
         }
 
         override public void setReadOnly(bool readOnly)
@@ -68,7 +69,7 @@ namespace Floobits.floobits_vsp
 
         override public IFile getVirtualFile()
         {
-            return ContextContainer.GetVSPFactory().findFileByPath(getPath());
+            return context.GetVSPFactory().findFileByPath(getPath());
         }
 
         override public string patch(FlooPatchPosition[] positions)

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using Floobits.Common;
 using Floobits.Common.Interfaces;
 
@@ -19,14 +18,13 @@ namespace Floobits.floobits_vsp
 
     public class VSPFile : IFile
     {
-        [Import(typeof(VSPContextContainer))]
-        internal VSPContextContainer ContextContainer = null;
-
         string file_path;
+        VSPContext context;
 
-        public VSPFile(string path)
+        public VSPFile(string path, VSPContext context)
         {
             file_path = path;
+            this.context = context;
         }
 
         public override bool Equals(object other)
@@ -50,7 +48,7 @@ namespace Floobits.floobits_vsp
             {
                 string old = getPath();
                 File.Move(file_path, name);
-                ContextContainer.GetVSPFactory().retrackFile(old, this);
+                context.GetVSPFactory().retrackFile(old, this);
                 file_path = name;
                 return true;
             }
@@ -70,7 +68,7 @@ namespace Floobits.floobits_vsp
             try
             {
                 File.Delete(file_path);
-                ContextContainer.GetVSPFactory().untrackFile(getPath());
+                context.GetVSPFactory().untrackFile(getPath());
                 return true;
             }
             catch (Exception)

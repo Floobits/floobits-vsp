@@ -54,7 +54,7 @@ namespace Floobits.floobits_vsp
 
         public VSPDoc trackDocument(IWpfTextView tv)
         {
-            VSPDoc doc = new VSPDoc(tv);
+            VSPDoc doc = new VSPDoc(tv, context);
             docs.Add(FilenameUtils.normalize(doc.getPath()), doc);
             return doc;
         }
@@ -78,7 +78,7 @@ namespace Floobits.floobits_vsp
 
         public VSPFile trackFile(string path)
         {
-            VSPFile file = new VSPFile(path);
+            VSPFile file = new VSPFile(path, context);
             files.Add(FilenameUtils.normalize(path), file);
             return file;
         }

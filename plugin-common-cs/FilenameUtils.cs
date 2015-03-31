@@ -17,13 +17,13 @@ namespace Floobits.Common
 
         public static string normalize(string path)
         {
-            return Path.GetFullPath(new Uri(path).LocalPath)
+            return Path.GetFullPath(path)
                        .ToUpperInvariant();
         }
 
         public static string normalizeNoEndSeparator(string path)
         {
-            return Path.GetFullPath(new Uri(path).LocalPath)
+            return Path.GetFullPath(path)
                        .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
                        .ToUpperInvariant();
         }
