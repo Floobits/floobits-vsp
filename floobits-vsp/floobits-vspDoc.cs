@@ -29,6 +29,11 @@ namespace Floobits.floobits_vsp
             return document.FilePath;
         }
 
+        public IWpfTextView getTextView()
+        {
+            return textView;
+        }
+
         override public void removeHighlight(int userId, string path)
         {
 

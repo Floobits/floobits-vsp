@@ -63,7 +63,7 @@ namespace Floobits.floobits_vsp
         {
             foreach (KeyValuePair<string, VSPDoc> pair in docs)
             {
-                if (pair.Value == tv)
+                if (pair.Value.getTextView() == tv)
                 {
                     untrackDocument(pair.Key);
                     break;
@@ -103,7 +103,7 @@ namespace Floobits.floobits_vsp
         public override IDoc getDocument(string relPath)
         {
             VSPDoc d = null;
-            docs.TryGetValue(FilenameUtils.normalize(relPath), out d);
+            docs.TryGetValue(FilenameUtils.normalize(context.absPath(relPath)), out d);
             return d;
         }
 
