@@ -93,7 +93,7 @@ namespace Floobits.Common
             {
                 if (Buf.isBad(buf))
                 {
-                    Flog.info("buf isn't populated yet %s", file.getPath());
+                    Flog.info("buf isn't populated yet {0}", file.getPath());
                     return;
                 }
                 buf.send_patch(file);

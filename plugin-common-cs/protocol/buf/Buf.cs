@@ -64,7 +64,7 @@ namespace Floobits.Common.Protocol.Buf
             }
             catch (IOException)
             {
-                Flog.warn("Error getting virtual file contents in createBuf %s", virtualFile);
+                Flog.warn("Error getting virtual file contents in createBuf {0}", virtualFile.getPath());
             }
             return null;
         }
@@ -93,7 +93,7 @@ namespace Floobits.Common.Protocol.Buf
         {
             if (timeout != null)
             {
-                Flog.log("canceling timeout for %s", path);
+                Flog.log("canceling timeout for {0}", path);
                 timeout.Dispose();
                 timeout = null;
             }

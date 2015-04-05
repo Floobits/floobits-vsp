@@ -199,7 +199,7 @@ namespace Floobits.Common.Protocol.Buf
             {
                 if (!clean)
                 {
-                    Flog.log("Patch not clean for {0}. Sending get_buf and setting readonly.", d);
+                    Flog.log("Patch not clean for {0}. Sending get_buf and setting readonly.", d.getVirtualFile().getPath());
                     getBuf();
                     return;
                 }
@@ -213,7 +213,7 @@ namespace Floobits.Common.Protocol.Buf
 
             if (!d.makeWritable())
             {
-                Flog.info("Document: {0} is not writable.", d);
+                Flog.info("Document: {0} is not writable.", d.getVirtualFile().getPath());
                 return;
             }
 

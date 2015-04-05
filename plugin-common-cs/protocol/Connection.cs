@@ -126,6 +126,7 @@ namespace Floobits.Common.Protocol
 
         public void reader(string msg)
         {
+            Flog.log("Message recieved: {0}", msg);
             JObject obj = JObject.Parse(msg);
             JToken name;
             if (!obj.TryGetValue("name", out name)) {

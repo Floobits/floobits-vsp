@@ -6,11 +6,11 @@ namespace Floobits.Common
     {
         public static string md5Hex(string data)
         {
-            return Convert.ToBase64String(new System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(System.Text.Encoding.UTF8.GetBytes(data)));
+            return String.Concat(Array.ConvertAll(new System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(System.Text.Encoding.UTF8.GetBytes(data)), x => x.ToString("X2"))).ToLower();
         }
         public static string md5Hex(byte[] data)
         {
-            return Convert.ToBase64String(new System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(data));
+            return String.Concat(Array.ConvertAll(new System.Security.Cryptography.MD5CryptoServiceProvider().ComputeHash(data), x => x.ToString("X2"))).ToLower();
         }
     }
 

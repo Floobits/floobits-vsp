@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Floobits.Common;
 using Floobits.Common.Dmp;
 using Floobits.Common.Interfaces;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 
@@ -46,7 +47,7 @@ namespace Floobits.floobits_vsp
 
         override public void save()
         {
-            document.Save();
+            //document.Save();
         }
 
         override public string getText()
@@ -69,7 +70,7 @@ namespace Floobits.floobits_vsp
 
         override public bool makeWritable()
         {
-            return false;
+            return true;
         }
 
         override public IFile getVirtualFile()
@@ -79,7 +80,17 @@ namespace Floobits.floobits_vsp
 
         override public string patch(FlooPatchPosition[] positions)
         {
-            return "";
+            return ThreadHelper.Generic.Invoke<string>((() => {
+                foreach (FlooPatchPosition position in positions)
+                {
+                    try
+                    {
+                        textBuffer.Replace(new Span(position.start, position.end), position.text);
+                    }
+                    catch(Exception) { }
+                }
+                return getText();
+            }));
         }
     }
 }
