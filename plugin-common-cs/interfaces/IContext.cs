@@ -153,6 +153,7 @@ namespace Floobits.Common.Interfaces
 
         public void joinWorkspace(FlooUrl flooUrl, string path, bool upload)
         {
+            Flog.log("Joining workspace.");
             FloorcJson floorcJson = null;
             try
             {
