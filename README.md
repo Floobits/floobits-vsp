@@ -1,6 +1,8 @@
 floobits-vsp
 ============
 
+### Development status: Not working. Development halted. Others are welcome to pick up where we left off.
+
 Floobits plugin for Microsoft Visual Studio 2013
 * Requires .NET 4.5 (included with VS2013)
 * Developed as a Visual Studio Package (VSP)
@@ -22,3 +24,6 @@ Hints
 ```"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VSSDK\VisualStudioIntegration\Tools\Bin\CreateExpInstance.exe" /reset /VSInstance=12 /RootSuffix=exp```
 
 
+# TODO
+use ngit where java uses jgit
+https://code.google.com/p/ngit/
